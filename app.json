@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "EventFlow",
+    "slug": "EventFlow",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/brand/png/icon-1024.png",
+    "scheme": "eventflow",
+    "userInterfaceStyle": "light",
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0274DF",
+        "foregroundImage": "./assets/brand/png/glyph-white-1024.png",
+        "monochromeImage": "./assets/brand/png/android-monochrome-1024.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/brand/png/favicon-48.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0274DF",
+          "image": "./assets/brand/png/glyph-white-512.png",
+          "imageWidth": 120
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

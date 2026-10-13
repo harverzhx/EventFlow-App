@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="EventFlow logo mark">
+  <defs>
+    <linearGradient id="efBadge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5AB4FF" />
+      <stop offset="0.5" stop-color="#208AEF" />
+      <stop offset="1" stop-color="#0274DF" />
+    </linearGradient>
+    <linearGradient id="efFlow" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#C9E3FF" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="url(#efBadge)" />
+
+  <path
+    d="M 170 174 H 318 A 24 24 0 0 1 342 198 V 228 A 24 24 0 0 1 318 252 H 212 A 24 24 0 0 0 188 276 V 306 A 24 24 0 0 0 212 330 H 300"
+    fill="none"
+    stroke="url(#efFlow)"
+    stroke-width="44"
+    stroke-linecap="round"
+    stroke-linejoin="round" />
+
+  <circle cx="300" cy="330" r="30" fill="#FFFFFF" />
+</svg>

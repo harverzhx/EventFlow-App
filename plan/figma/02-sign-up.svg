@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <defs>
+    <linearGradient id="btnG2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1675D4"/><stop offset="1" stop-color="#0274DF"/>
+    </linearGradient>
+    <linearGradient id="glowG2" x1="0.2" y1="0.1" x2="0.8" y2="0.9">
+      <stop offset="0" stop-color="#3C9FFE"/><stop offset="1" stop-color="#3C9FFE" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="390" height="844" fill="#FFFFFF"/>
+
+  <!-- aurora -->
+  <circle cx="80" cy="470" r="190" fill="url(#glowG2)" opacity="0.45"/>
+  <circle cx="320" cy="180" r="170" fill="url(#glowG2)" opacity="0.35"/>
+  <circle cx="60" cy="780" r="200" fill="url(#glowG2)" opacity="0.4"/>
+
+  <!-- status bar -->
+  <text x="24" y="22" font-family="sans-serif" font-size="13" fill="#0B1F3A">9:41</text>
+  <circle cx="18" cy="20" r="4" fill="#0B1F3A" opacity="0.85"/>
+  <rect x="330" y="16" width="14" height="9" rx="2.5" fill="none" stroke="#0B1F3A" stroke-width="1.4"/>
+  <rect x="331.5" y="17.5" width="8" height="6" rx="1" fill="#0B1F3A"/>
+  <rect x="348" y="18" width="2" height="5" rx="1" fill="#0B1F3A"/>
+
+  <!-- back chevron -->
+  <circle cx="46" cy="56" r="22" fill="#F6F9FD"/>
+  <path d="M 40 56 l 6 -6 M 40 56 l 6 6" stroke="#0B1F3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 40 56 h 12" stroke="#0B1F3A" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- glass card -->
+  <rect x="24" y="92" width="342" height="600" rx="20" fill="#FFFFFF" opacity="0.85"/>
+
+  <text x="48" y="136" font-family="sans-serif" font-size="26" font-weight="700" fill="#0B1F3A">Create your account</text>
+  <text x="48" y="164" font-family="sans-serif" font-size="16" fill="#5A6B82">Start planning and managing your events in minutes.</text>
+
+  <!-- full name -->
+  <text x="48" y="210" font-family="sans-serif" font-size="14" font-weight="600" fill="#12233D">Full Name</text>
+  <rect x="48" y="224" width="294" height="56" rx="14" fill="#FFFFFF" stroke="#E2E9F2" stroke-width="1"/>
+  <circle cx="72" cy="252" r="8" fill="none" stroke="#5A6B82" stroke-width="1.6"/>
+  <circle cx="72" cy="249" r="3" fill="#5A6B82"/>
+  <path d="M 64 258 c 1.5 -2 4 -3 8 -3 s 6.5 1 8 3" fill="none" stroke="#5A6B82" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="104" y="253" font-family="sans-serif" font-size="16" fill="#5A6B82">Juan Dela Cruz</text>
+
+  <!-- email -->
+  <text x="48" y="318" font-family="sans-serif" font-size="14" font-weight="600" fill="#12233D">Email</text>
+  <rect x="48" y="332" width="294" height="56" rx="14" fill="#FFFFFF" stroke="#E2E9F2" stroke-width="1"/>
+  <path d="M 72 358 h 0 l 8 -5 l 8 5 M 72 354 c -2 0 -3.5 1.5 -3.5 3.5 v 6 c 0 2 1.5 3.5 3.5 3.5 h 13 c 2 0 3.5 -1.5 3.5 -3.5 v -6 c 0 -2 -1.5 -3.5 -3.5 -3.5 z" fill="none" stroke="#5A6B82" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="104" y="361" font-family="sans-serif" font-size="16" fill="#5A6B82">you@example.com</text>
+
+  <!-- password -->
+  <text x="48" y="426" font-family="sans-serif" font-size="14" font-weight="600" fill="#12233D">Password</text>
+  <rect x="48" y="440" width="294" height="56" rx="14" fill="#FFFFFF" stroke="#E2E9F2" stroke-width="1"/>
+  <rect x="71" y="459" width="16" height="13" rx="4" fill="none" stroke="#5A6B82" stroke-width="1.6"/>
+  <path d="M 79 451 v 6" stroke="#5A6B82" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="79" cy="466" r="2" fill="#5A6B82"/>
+  <circle cx="79" cy="466" r="8" fill="none" stroke="#5A6B82" stroke-width="1.6"/>
+  <text x="104" y="469" font-family="sans-serif" font-size="16" fill="#5A6B82">Create a password</text>
+  <path d="M 308 464 c -4 -5 -9 -7 -14 -7 c -5 0 -10 2 -14 7 c 4 5 9 7 14 7 c 5 0 10 -2 14 -7 z M 294 464 a 2 2 0 1 0 0 0.1" fill="none" stroke="#5A6B82" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- confirm password -->
+  <text x="48" y="534" font-family="sans-serif" font-size="14" font-weight="600" fill="#12233D">Confirm Password</text>
+  <rect x="48" y="548" width="294" height="56" rx="14" fill="#FFFFFF" stroke="#E2E9F2" stroke-width="1"/>
+  <path d="M 70 574 l 4.5 4.5 l 9 -9" fill="none" stroke="#5A6B82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="104" y="577" font-family="sans-serif" font-size="16" fill="#5A6B82">Re-enter your password</text>
+  <path d="M 308 572 c -4 -5 -9 -7 -14 -7 c -5 0 -10 2 -14 7 c 4 5 9 7 14 7 c 5 0 10 -2 14 -7 z M 294 572 a 2 2 0 1 0 0 0.1" fill="none" stroke="#5A6B82" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- sign up button -->
+  <rect x="48" y="628" width="294" height="56" rx="14" fill="url(#btnG2)"/>
+  <text x="186" y="661" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Sign Up</text>
+  <path d="M 178 659 a 2 2 0 1 0 0 -0.1 M 182 651 c -2 2.5 1 2.5 0 5 M 172 651 c 1 3.9 2 5 3 6.2 M 190 651 c -1 3.5 -2 4.4 -3 5.6" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round"/>
+
+  <!-- footer -->
+  <text x="156" y="816" text-anchor="end" font-family="sans-serif" font-size="14" fill="#5A6B82">Already have an account?</text>
+  <text x="220" y="816" font-family="sans-serif" font-size="14" font-weight="700" fill="#0274DF">Login</text>
+</svg>

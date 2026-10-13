@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <defs>
+    <linearGradient id="hdG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1675D4"/><stop offset="0.5" stop-color="#0F6FD0"/><stop offset="1" stop-color="#0274DF"/>
+    </linearGradient>
+    <linearGradient id="glowG3" x1="0.2" y1="0.1" x2="0.8" y2="0.9">
+      <stop offset="0" stop-color="#3C9FFE"/><stop offset="1" stop-color="#3C9FFE" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="dgG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D9382B"/><stop offset="1" stop-color="#CE2A1E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="390" height="844" fill="#FFFFFF"/>
+
+  <!-- aurora -->
+  <circle cx="340" cy="560" r="200" fill="url(#glowG3)" opacity="0.5"/>
+  <circle cx="60" cy="300" r="180" fill="url(#glowG3)" opacity="0.35"/>
+
+  <!-- status bar (white text over gradient) -->
+  <text x="24" y="22" font-family="sans-serif" font-size="13" fill="#FFFFFF">9:41</text>
+  <circle cx="18" cy="20" r="4" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="330" y="16" width="14" height="9" rx="2.5" fill="none" stroke="#FFFFFF" stroke-width="1.4"/>
+  <rect x="331.5" y="17.5" width="8" height="6" rx="1" fill="#FFFFFF"/>
+  <rect x="348" y="18" width="2" height="5" rx="1" fill="#FFFFFF"/>
+
+  <!-- welcome header banner -->
+  <rect x="0" y="0" width="390" height="170" fill="url(#hdG)"/>
+
+  <text x="24" y="64" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1.6" fill="#FFFFFF" fill-opacity="0.75">EVENTFLOW</text>
+  <text x="24" y="102" font-family="sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">Welcome, User!</text>
+  <text x="24" y="132" font-family="sans-serif" font-size="14" fill="#FFFFFF" fill-opacity="0.85">You have 3 upcoming events this week.</text>
+
+  <!-- avatar -->
+  <circle cx="338" cy="86" r="28" fill="#FFFFFF" fill-opacity="0.5"/>
+  <circle cx="338" cy="86" r="28" fill="#FFFFFF" fill-opacity="0.25"/>
+  <path d="M 332 84 c -1 -1 -1 -7 1 -9 s 8 -5 11 -2 s 3 7 1 8 M 326 91 c -3 -4 -2 -11 1 -14 s 12 -6 18 -1 s 8 7 6 11" fill="none" stroke="#0274DF" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="345" cy="75" r="4.5" fill="#0274DF"/>
+
+  <!-- Menu section -->
+  <text x="24" y="212" font-family="sans-serif" font-size="20" font-weight="700" fill="#0B1F3A">Menu</text>
+  <text x="24" y="238" font-family="sans-serif" font-size="14" fill="#5A6B82">Quick access to your EventFlow tools.</text>
+
+  <!-- card grid: Profile | Settings -->
+  <g>
+    <rect x="24" y="256" width="164" height="132" rx="20" fill="#FFFFFF"/>
+    <rect x="24" y="256" width="164" height="132" rx="20" fill="none" stroke="#E2E9F2" stroke-width="1"/>
+    <rect x="44" y="276" width="40" height="40" rx="12" fill="#E8F2FE"/>
+    <circle cx="64" cy="286" r="5" fill="none" stroke="#0274DF" stroke-width="1.7"/>
+    <circle cx="64" cy="283.5" r="2" fill="#0274DF"/>
+    <path d="M 58 291 c 1.3 -1.8 3.5 -2.7 6 -2.7 s 4.7 0.9 6 2.7" fill="none" stroke="#0274DF" stroke-width="1.7" stroke-linecap="round"/>
+    <text x="44" y="330" font-family="sans-serif" font-size="16" font-weight="700" fill="#0B1F3A">Profile</text>
+    <text x="44" y="352" font-family="sans-serif" font-size="13" fill="#5A6B82">Your account details</text>
+  </g>
+
+  <g>
+    <rect x="202" y="256" width="164" height="132" rx="20" fill="#FFFFFF"/>
+    <rect x="202" y="256" width="164" height="132" rx="20" fill="none" stroke="#E2E9F2" stroke-width="1"/>
+    <rect x="222" y="276" width="40" height="40" rx="12" fill="#E8F2FE"/>
+    <path d="M 238 282 h 8 v 5 c 1.5 1 2.5 2.5 3 4.5 l 5 1 v 6 l -5 1 c -0.5 2 -1.5 3.5 -3 4.5 v 5 h -8 v -5 c -1.5 -1 -2.5 -2.5 -3 -4.5 l -5 -1 v -6 l 5 -1 c 0.5 -2 1.5 -3.5 3 -4.5 z" fill="none" stroke="#0274DF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="242" cy="300" r="2.2" fill="#0274DF"/>
+    <text x="222" y="330" font-family="sans-serif" font-size="16" font-weight="700" fill="#0B1F3A">Settings</text>
+    <text x="222" y="352" font-family="sans-serif" font-size="13" fill="#5A6B82">App preferences</text>
+  </g>
+
+  <!-- Logout -->
+  <g>
+    <rect x="24" y="400" width="164" height="132" rx="20" fill="#FFFFFF"/>
+    <rect x="24" y="400" width="164" height="132" rx="20" fill="none" stroke="#E2E9F2" stroke-width="1"/>
+    <rect x="44" y="420" width="40" height="40" rx="12" fill="#FEF3F2"/>
+    <path d="M 60 428 h 8 v 3 h 2.5 l 3 5 l -3 5 H 68 v 3 h 3.5 a 2.2 2.2 0 0 1 1.9 1 l 3.6 5 H 75 c -2.5 0 -4 -2 -4 -4.5 v -1 M 72 442 l 4 4 l 4 -4" fill="none" stroke="#CE2A1E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="44" y="474" font-family="sans-serif" font-size="16" font-weight="700" fill="#CE2A1E">Logout</text>
+    <text x="44" y="496" font-family="sans-serif" font-size="13" fill="#5A6B82">Sign out of EventFlow</text>
+  </g>
+
+  <!-- Upcoming Events -->
+  <text x="24" y="576" font-family="sans-serif" font-size="20" font-weight="700" fill="#0B1F3A">Upcoming Events</text>
+  <text x="24" y="602" font-family="sans-serif" font-size="14" fill="#5A6B82">Your next 3 scheduled events.</text>
+
+  <!-- event 1 -->
+  <g>
+    <rect x="24" y="616" width="342" height="72" rx="20" fill="#FFFFFF"/>
+    <rect x="24" y="616" width="342" height="72" rx="20" fill="none" stroke="#E2E9F2" stroke-width="1"/>
+    <rect x="40" y="632" width="52" height="40" rx="14" fill="#E8F2FE"/>
+    <text x="66" y="654" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#0274DF">12</text>
+    <text x="66" y="666" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#0274DF">SEP</text>
+    <text x="104" y="650" font-family="sans-serif" font-size="16" font-weight="700" fill="#0B1F3A">Team Building Day</text>
+    <text x="104" y="674" font-family="sans-serif" font-size="13" fill="#5A6B82">9:00 AM &#183; Main Campus</text>
+    <path d="M 348 650 l 5 4 l -5 4" fill="none" stroke="#5A6B82" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- event 2 -->
+  <g>
+    <rect x="24" y="700" width="342" height="72" rx="20" fill="#FFFFFF"/>
+    <rect x="24" y="700" width="342" height="72" rx="20" fill="none" stroke="#E2E9F2" stroke-width="1"/>
+    <rect x="40" y="716" width="52" height="40" rx="14" fill="#E8F2FE"/>
+    <text x="66" y="738" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#0274DF">18</text>
+    <text x="66" y="750" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#0274DF">SEP</text>
+    <text x="104" y="734" font-family="sans-serif" font-size="16" font-weight="700" fill="#0B1F3A">Product Launch</text>
+    <text x="104" y="758" font-family="sans-serif" font-size="13" fill="#5A6B82">2:30 PM &#183; Grand Hall</text>
+    <path d="M 348 734 l 5 4 l -5 4" fill="none" stroke="#5A6B82" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
