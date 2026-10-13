@@ -1,19 +1,18 @@
 import { Feather } from '@expo/vector-icons';
 import { type RefObject } from 'react';
-import { Alert, StyleSheet, View, type View as ViewType } from 'react-native';
+import { StyleSheet, Text, View, type View as ViewType } from 'react-native';
 import { router } from 'expo-router';
 import { FadeInDown } from 'react-native-reanimated';
 
 import { AnimatedPressable } from '@/components/animated-pressable';
 import { GlassSurface } from '@/components/glass-surface';
 import { Colors, Radius, Spacing } from '@/constants/theme';
+import { useResponsive } from '@/hooks/use-responsive';
 
 export const NAV_ITEMS = [
   { key: 'home', label: 'Home', icon: 'home' },
   { key: 'events', label: 'Events', icon: 'calendar' },
   { key: 'profile', label: 'Profile', icon: 'user' },
-  { key: 'settings', label: 'Settings', icon: 'sliders' },
-  { key: 'logout', label: 'Logout', icon: 'log-out' },
 ] as const;
 
 export type NavKey = (typeof NAV_ITEMS)[number]['key'];
@@ -25,8 +24,12 @@ type BottomNavProps = {
 
 /** Floating glass bottom navigation; the active tab sits on a blue pill. */
 export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
+  const { inset } = useResponsive();
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { paddingHorizontal: inset }]}
+      pointerEvents="box-none">
       <GlassSurface
         style={styles.surface}
         borderRadius={Radius.pill}
@@ -46,32 +49,25 @@ export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
                 entering={FadeInDown.delay(560 + index * 60).duration(460)}
                 onPress={() => {
                   if (item.key === 'home') {
-                    if (activeKey === 'home') {
-                      Alert.alert('Home', 'You are already on the dashboard.');
-                    } else {
+                    if (activeKey !== 'home') {
                       router.replace('/dashboard');
                     }
                     return;
                   }
 
                   if (item.key === 'events') {
-                    if (activeKey === 'events') {
-                      Alert.alert('Events', 'You are already on the events page.');
-                    } else {
+                    if (activeKey !== 'events') {
                       router.push('/events');
                     }
                     return;
                   }
 
-                  if (item.key === 'logout') {
-                    Alert.alert('Logout', 'Are you sure you want to sign out?', [
-                      { text: 'Cancel', style: 'cancel' },
-                      { text: 'Logout', style: 'destructive', onPress: () => router.replace('/login') },
-                    ]);
+                  if (item.key === 'profile') {
+                    if (activeKey !== 'profile') {
+                      router.push('/profile');
+                    }
                     return;
                   }
-
-                  Alert.alert('Menu', `${item.label} is part of the UI for this activity.`);
                 }}>
                 <View style={[styles.pill, active && styles.pillActive]}>
                   <Feather
@@ -80,6 +76,7 @@ export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
                     color={active ? Colors.white : Colors.primary}
                   />
                 </View>
+                <Text style={[styles.label, active && styles.labelActive]}>{item.label}</Text>
               </AnimatedPressable>
             );
           })}
@@ -95,12 +92,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: Spacing.three,
     paddingBottom: Spacing.three,
   },
   surface: {
     paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.three,
+    paddingVertical: Spacing.two,
   },
   row: {
     flexDirection: 'row',
@@ -108,10 +104,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   item: {
-    width: 56,
-    height: 56,
+    flex: 1,
+    minWidth: 56,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 4,
+    paddingVertical: Spacing.two,
   },
   pill: {
     width: 44,
@@ -127,5 +125,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 4,
+  },
+  label: {
+    fontFamily: 'System',
+    fontSize: 11,
+    lineHeight: 14,
+    fontWeight: '600',
+    color: Colors.textMuted,
+  },
+  labelActive: {
+    color: Colors.primary,
   },
 });
