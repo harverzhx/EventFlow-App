@@ -19,6 +19,14 @@ export default function RootLayout() {
         <Stack.Screen name="dashboard" />
         <Stack.Screen name="events" />
         <Stack.Screen name="profile" />
+        <Stack.Screen name="create-event" />
+        <Stack.Screen name="register-event" />
+        <Stack.Screen name="my-qr" />
+        <Stack.Screen name="scan-qr" />
+        <Stack.Screen name="participants" />
+        <Stack.Screen name="attendance" />
+        <Stack.Screen name="reports" />
+        <Stack.Screen name="my-registrations" />
       </Stack>
     </View>
   );

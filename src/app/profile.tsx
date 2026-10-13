@@ -12,6 +12,7 @@ import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
+import { CURRENT_USER, ROLE_LABEL } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 
 type UserInfo = {
@@ -22,10 +23,10 @@ type UserInfo = {
   location: string;
 };
 
-const CURRENT_USER: UserInfo = {
-  name: 'Magsayo Dave Archie',
-  email: 'dave.magsayo@example.com',
-  role: 'Programmer / Documents',
+const INITIAL_INFO: UserInfo = {
+  name: CURRENT_USER.name,
+  email: CURRENT_USER.email,
+  role: ROLE_LABEL[CURRENT_USER.role],
   phone: '+63 917 123 4567',
   location: 'Cagayan de Oro, Philippines',
 };
@@ -42,8 +43,8 @@ export default function ProfileScreen() {
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
-  const [info, setInfo] = useState<UserInfo>(CURRENT_USER);
-  const [draft, setDraft] = useState<UserInfo>(CURRENT_USER);
+  const [info, setInfo] = useState<UserInfo>(INITIAL_INFO);
+  const [draft, setDraft] = useState<UserInfo>(INITIAL_INFO);
   const [editing, setEditing] = useState(false);
 
   function startEdit() {

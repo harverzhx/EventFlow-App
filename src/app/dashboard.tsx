@@ -12,24 +12,14 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
 import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
+import { CURRENT_USER, MOCK_EVENTS, MOCK_USERS, ROLE_LABEL, quickActionsForRole } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 
-const CURRENT_USER = {
-  name: 'Magsayo Dave Archie',
-  role: 'Programmer / Documents',
-};
+const QUICK_ACTIONS = quickActionsForRole(CURRENT_USER.role);
 
-const UPCOMING_EVENTS = [
-  { key: 'e1', day: '12', month: 'SEP', title: 'Team Building Day', meta: '9:00 AM · Main Campus' },
-  { key: 'e2', day: '18', month: 'SEP', title: 'Product Launch', meta: '2:30 PM · Grand Hall' },
-  { key: 'e3', day: '25', month: 'SEP', title: 'Quarterly Review', meta: '10:00 AM · Meeting Room A' },
-] as const;
+const UPCOMING_EVENTS = MOCK_EVENTS.slice(0, 3);
 
-const USERS = [
-  { key: 'u1', name: 'Magsayo Dave Archie', role: 'Programmer / Documents' },
-  { key: 'u2', name: 'Baje John Harvy', role: 'Programmer' },
-  { key: 'u3', name: 'Marian Santos', role: 'UI Design Ideas' },
-] as const;
+const USERS = MOCK_USERS.filter((user) => user.key !== CURRENT_USER.key);
 
 export default function DashboardScreen() {
   const blurTarget = useRef<View>(null);
@@ -54,7 +44,7 @@ export default function DashboardScreen() {
                 <View style={styles.greeting}>
                   <Text style={styles.eyebrow}>EVENTFLOW</Text>
                   <Text style={styles.title}>Welcome, {CURRENT_USER.name.split(' ')[0]}!</Text>
-                  <Text style={styles.subtitle}>You have 3 upcoming events this week.</Text>
+                  <Text style={styles.subtitle}>You have {UPCOMING_EVENTS.length} upcoming events this week.</Text>
                 </View>
 
                 <AnimatedPressable
@@ -74,6 +64,40 @@ export default function DashboardScreen() {
               </View>
             </LinearGradient>
           </Animated.View>
+
+          {/* Role-aware quick actions */}
+          <Animated.View
+            entering={FadeInDown.delay(120).duration(480)}
+            style={styles.section}>
+            <Text style={styles.sectionTitle}>Quick Actions</Text>
+            <Text style={styles.sectionHint}>Tools for your {ROLE_LABEL[CURRENT_USER.role].split(' / ')[0]} role.</Text>
+          </Animated.View>
+
+          <View style={styles.grid}>
+            {QUICK_ACTIONS.map((action, index) => (
+              <AnimatedPressable
+                key={action.key}
+                style={styles.gridItem}
+                entering={FadeInDown.delay(180 + index * 70).duration(460)}
+                onPress={() => router.push(action.route)}>
+                <GlassSurface
+                  style={styles.card}
+                  borderRadius={Radius.lg}
+                  blurTarget={blurTarget}
+                  intensity={40}
+                  overlayColor="rgba(255, 255, 255, 0.7)"
+                  tintColor="rgba(255, 255, 255, 0.7)"
+                  isInteractive>
+                  <View style={styles.cardIcon}>
+                    <Feather name={action.icon} size={20} color={Colors.primary} />
+                  </View>
+
+                  <Text style={styles.cardLabel}>{action.label}</Text>
+                  <Text style={styles.cardCaption}>{action.caption}</Text>
+                </GlassSurface>
+              </AnimatedPressable>
+            ))}
+          </View>
 
           {/* Users */}
           <Animated.View
@@ -106,7 +130,7 @@ export default function DashboardScreen() {
                       {user.name}
                     </Text>
                     <Text style={styles.eventMeta} numberOfLines={1}>
-                      {user.role}
+                      {ROLE_LABEL[user.role]}
                     </Text>
                   </View>
 
@@ -148,7 +172,7 @@ export default function DashboardScreen() {
                       {event.title}
                     </Text>
                     <Text style={styles.eventMeta} numberOfLines={1}>
-                      {event.meta}
+                      {event.time} · {event.venue}
                     </Text>
                   </View>
 
@@ -226,6 +250,42 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.four,
     paddingBottom: Spacing.three,
     gap: Spacing.one,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: Spacing.four,
+    gap: Spacing.three,
+  },
+  gridItem: {
+    flexGrow: 1,
+    flexBasis: '44%',
+    minWidth: 140,
+  },
+  card: {
+    padding: Spacing.three,
+    gap: Spacing.two,
+  },
+  cardIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.primaryTint,
+  },
+  cardLabel: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.md,
+    lineHeight: 22,
+    fontWeight: '700',
+    color: Colors.navy,
+  },
+  cardCaption: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.xs,
+    lineHeight: 18,
+    color: Colors.textMuted,
   },
   sectionTitle: {
     fontFamily: Fonts.sans,

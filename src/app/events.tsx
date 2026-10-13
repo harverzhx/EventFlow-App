@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { BlurTargetView } from 'expo-blur';
 import { router } from 'expo-router';
 import { useRef } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,20 +11,18 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
 import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
+import { CURRENT_USER, MOCK_EVENTS } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 
-const EVENTS = [
-  { key: 'e1', day: '12', month: 'SEP', title: 'Team Building Day', meta: '9:00 AM · Main Campus' },
-  { key: 'e2', day: '18', month: 'SEP', title: 'Product Launch', meta: '2:30 PM · Grand Hall' },
-  { key: 'e3', day: '25', month: 'SEP', title: 'Quarterly Review', meta: '10:00 AM · Meeting Room A' },
-  { key: 'e4', day: '02', month: 'OCT', title: 'Expo Go Workshop', meta: '1:00 PM · Lab 3' },
-  { key: 'e5', day: '09', month: 'OCT', title: 'Project Defense', meta: '8:30 AM · Room 204' },
-  { key: 'e6', day: '16', month: 'OCT', title: 'Hackathon Night', meta: '5:00 PM · Innovation Hub' },
-] as const;
+const EVENTS = MOCK_EVENTS;
 
 export default function EventsScreen() {
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  function handleEventPress(eventKey: string, title: string) {
+    Alert.alert(title, 'Event details are part of the UI only for this activity.');
+  }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -50,6 +48,16 @@ export default function EventsScreen() {
               <Text style={styles.title}>Events</Text>
               <Text style={styles.subtitle}>Browse your scheduled events.</Text>
             </View>
+            {CURRENT_USER.role === 'admin' ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Create event"
+                hitSlop={8}
+                style={styles.createButton}
+                onPress={() => router.push('/create-event')}>
+                <Feather name="plus" size={20} color={Colors.white} />
+              </Pressable>
+            ) : null}
           </Animated.View>
 
           <Animated.View
@@ -64,7 +72,7 @@ export default function EventsScreen() {
               <AnimatedPressable
                 key={event.key}
                 entering={FadeInDown.delay(180 + index * 70).duration(460)}
-                onPress={() => router.push('/events')}>
+                onPress={() => handleEventPress(event.key, event.title)}>
                 <GlassSurface
                   style={styles.eventRow}
                   borderRadius={Radius.lg}
@@ -83,7 +91,10 @@ export default function EventsScreen() {
                       {event.title}
                     </Text>
                     <Text style={styles.eventMeta} numberOfLines={1}>
-                      {event.meta}
+                      {event.time} · {event.venue}
+                    </Text>
+                    <Text style={styles.eventMeta} numberOfLines={1}>
+                      {event.registered}/{event.capacity} registered
                     </Text>
                   </View>
 
@@ -127,6 +138,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.surface,
+  },
+  createButton: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.primary,
   },
   headerText: {
     flex: 1,
