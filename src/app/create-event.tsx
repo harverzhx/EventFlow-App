@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { BlurTargetView } from 'expo-blur';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View, ScrollView } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -40,7 +40,11 @@ export default function CreateEventScreen() {
       </BlurTargetView>
 
       <View style={[styles.root, { paddingHorizontal: inset }]}>
-        <View style={[styles.shell, { width: contentWidth }]}>
+        <ScrollView
+          style={[styles.shell, { width: contentWidth }]}
+          contentContainerStyle={styles.shellContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           <Animated.View entering={FadeInDown.duration(520)} style={styles.header}>
             <Pressable
               accessibilityRole="button"
@@ -120,7 +124,7 @@ export default function CreateEventScreen() {
           </Animated.View>
 
           <View style={styles.spacer} />
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -138,6 +142,9 @@ const styles = StyleSheet.create({
   shell: {
     flex: 1,
     paddingTop: Spacing.three,
+  },
+  shellContent: {
+    paddingBottom: Spacing.six,
   },
   header: {
     flexDirection: 'row',

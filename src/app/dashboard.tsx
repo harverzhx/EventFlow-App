@@ -3,7 +3,7 @@ import { BlurTargetView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -32,7 +32,10 @@ export default function DashboardScreen() {
       </BlurTargetView>
 
       <View style={[styles.root, { paddingHorizontal: inset }]}>
-        <View style={[styles.shell, { width: contentWidth }]}>
+        <ScrollView
+          style={[styles.shell, { width: contentWidth }]}
+          contentContainerStyle={styles.shellContent}
+          showsVerticalScrollIndicator={false}>
           {/* Header: greeting + avatar (taps through to the profile screen) */}
           <Animated.View entering={FadeInDown.duration(520)}>
             <LinearGradient
@@ -183,7 +186,7 @@ export default function DashboardScreen() {
           </View>
 
           <View style={styles.spacer} />
-        </View>
+        </ScrollView>
       </View>
 
       <BottomNav activeKey="home" blurTargetRef={blurTarget} />
@@ -203,6 +206,9 @@ const styles = StyleSheet.create({
   shell: {
     flex: 1,
     paddingTop: Spacing.three,
+  },
+  shellContent: {
+    paddingBottom: Spacing.six,
   },
   header: {
     paddingHorizontal: Spacing.four,
