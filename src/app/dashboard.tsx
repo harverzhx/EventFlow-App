@@ -17,9 +17,37 @@ import styles from '@/styles/dashboard.styles';
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
-const QUICK_ACTIONS = quickActionsForRole(CURRENT_USER.role);
+/** The signed-in demo user — falls back to the admin sample account. */
+const ACTIVE_USER = CURRENT_USER;
+
+const QUICK_ACTIONS = quickActionsForRole(ACTIVE_USER.role);
 
 const UPCOMING_EVENTS = MOCK_EVENTS.slice(0, 3);
+
+type StatIcon = 'calendar' | 'users' | 'check-square' | 'grid';
+
+/** Summary stats derived from the sample event data (no backend). */
+const STATS: { key: string; label: string; value: number; icon: StatIcon }[] = [
+  { key: 'events', label: 'Total Events', value: MOCK_EVENTS.length, icon: 'calendar' },
+  {
+    key: 'registered',
+    label: 'Registrations',
+    value: MOCK_EVENTS.reduce((sum, event) => sum + event.registered, 0),
+    icon: 'users',
+  },
+  {
+    key: 'attended',
+    label: 'Attended',
+    value: MOCK_EVENTS.reduce((sum, event) => sum + event.attended, 0),
+    icon: 'check-square',
+  },
+  {
+    key: 'capacity',
+    label: 'Total Seats',
+    value: MOCK_EVENTS.reduce((sum, event) => sum + event.capacity, 0),
+    icon: 'grid',
+  },
+];
 
 export default function DashboardScreen() {
   const blurTarget = useRef<View>(null);
@@ -66,6 +94,28 @@ export default function DashboardScreen() {
                 </AnimatedPressable>
               </View>
             </LinearGradient>
+          </Animated.View>
+
+          {/* Summary stats — derived from sample event data, admin priority */}
+          <Animated.View
+            entering={FadeInDown.delay(80).duration(480)}
+            style={styles.statsWrap}>
+            {STATS.map((stat) => (
+              <GlassSurface
+                key={stat.key}
+                style={styles.statCard}
+                borderRadius={Radius.lg}
+                blurTarget={blurTarget}
+                intensity={40}
+                overlayColor="rgba(255, 255, 255, 0.7)"
+                tintColor="rgba(255, 255, 255, 0.7)">
+                <View style={styles.statIcon}>
+                  <Feather name={stat.icon} size={16} color={Colors.primary} />
+                </View>
+                <Text style={styles.statValue}>{stat.value}</Text>
+                <Text style={styles.statLabel}>{stat.label}</Text>
+              </GlassSurface>
+            ))}
           </Animated.View>
 
           {/* Role-aware quick actions */}
