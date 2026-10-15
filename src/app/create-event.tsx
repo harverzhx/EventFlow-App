@@ -11,12 +11,14 @@ import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { CURRENT_USER } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/create-event.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
 export default function CreateEventScreen() {
+  useRouteGuard('/create-event');
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 

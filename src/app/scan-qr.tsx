@@ -16,6 +16,7 @@ import {
   type MockRegistration
 } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/scan-qr.styles';
 
 import Animated,
@@ -24,6 +25,7 @@ import Animated,
 type ScanState = 'idle' | 'scanning' | 'verified';
 
 export default function ScanQrScreen() {
+  useRouteGuard('/scan-qr');
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 

@@ -9,12 +9,14 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { MOCK_EVENTS, MOCK_REGISTRATIONS } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/participants.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
 export default function ParticipantsScreen() {
+  useRouteGuard('/participants');
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 

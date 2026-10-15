@@ -10,6 +10,7 @@ import { BottomNav } from '@/components/bottom-nav';
 import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
+import { useDemoSession } from '@/context/demo-session';
 import { CURRENT_USER, ROLE_LABEL } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 import styles from '@/styles/profile.styles';
@@ -42,6 +43,7 @@ const FIELDS = [
 ] as const;
 
 export default function ProfileScreen() {
+  const { signOut } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
@@ -194,6 +196,23 @@ export default function ProfileScreen() {
               <PrimaryButton label="Save Changes" icon="check" onPress={saveEdit} />
             </Animated.View>
           ) : null}
+
+          {/* Logout (view mode only) */}
+          {editing ? null : (
+            <Animated.View
+              entering={FadeInDown.delay(280).duration(440)}
+              style={styles.actions}>
+              <PrimaryButton
+                label="Log Out"
+                icon="log-out"
+                variant="danger"
+                onPress={() => {
+                  signOut();
+                  router.replace('/login');
+                }}
+              />
+            </Animated.View>
+          )}
 
           <View style={styles.spacer} />
         </ScrollView>

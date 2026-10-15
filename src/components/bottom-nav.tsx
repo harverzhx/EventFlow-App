@@ -6,25 +6,41 @@ import { router } from 'expo-router';
 import { FadeInDown } from 'react-native-reanimated';
 import { AnimatedPressable } from '@/components/animated-pressable';
 import { GlassSurface } from '@/components/glass-surface';
+import { useDemoSession } from '@/context/demo-session';
+import type { UserRole } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 import styles from '@/styles/bottom-nav.styles';
 
-export const NAV_ITEMS = [
-  { key: 'home', label: 'Home', icon: 'home' },
-  { key: 'events', label: 'Events', icon: 'calendar' },
-  { key: 'profile', label: 'Profile', icon: 'user' },
-] as const;
+type NavItem = { key: string; label: string; icon: 'home' | 'calendar' | 'maximize' | 'user' };
 
-export type NavKey = (typeof NAV_ITEMS)[number]['key'];
+/** Role-aware bottom navigation items (demo). */
+function navItemsForRole(role: UserRole | null): NavItem[] {
+  if (role === 'staff') {
+    return [
+      { key: 'home', label: 'Home', icon: 'home' },
+      { key: 'scan', label: 'Scan', icon: 'maximize' },
+      { key: 'profile', label: 'Profile', icon: 'user' },
+    ];
+  }
+
+  // admin and participant both browse events
+  return [
+    { key: 'home', label: 'Home', icon: 'home' },
+    { key: 'events', label: 'Events', icon: 'calendar' },
+    { key: 'profile', label: 'Profile', icon: 'user' },
+  ];
+}
 
 type BottomNavProps = {
-  activeKey: NavKey;
+  activeKey: string;
   blurTargetRef: RefObject<ViewType | null>;
 };
 
 /** Floating glass bottom navigation; the active tab sits on a blue pill. */
 export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
+  const { role } = useDemoSession();
   const { inset } = useResponsive();
+  const items = navItemsForRole(role);
 
   return (
     <View
@@ -39,7 +55,7 @@ export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
         tintColor="rgba(255, 255, 255, 0.82)"
         isInteractive>
         <View style={styles.row}>
-          {NAV_ITEMS.map((item, index) => {
+          {items.map((item, index) => {
             const active = item.key === activeKey;
 
             return (
@@ -48,25 +64,18 @@ export function BottomNav({ activeKey, blurTargetRef }: BottomNavProps) {
                 style={styles.item}
                 entering={FadeInDown.delay(560 + index * 60).duration(460)}
                 onPress={() => {
+                  if (active) {
+                    return;
+                  }
+
                   if (item.key === 'home') {
-                    if (activeKey !== 'home') {
-                      router.replace('/dashboard');
-                    }
-                    return;
-                  }
-
-                  if (item.key === 'events') {
-                    if (activeKey !== 'events') {
-                      router.push('/events');
-                    }
-                    return;
-                  }
-
-                  if (item.key === 'profile') {
-                    if (activeKey !== 'profile') {
-                      router.push('/profile');
-                    }
-                    return;
+                    router.replace('/dashboard');
+                  } else if (item.key === 'events') {
+                    router.push('/events');
+                  } else if (item.key === 'scan') {
+                    router.push('/scan-qr');
+                  } else if (item.key === 'profile') {
+                    router.push('/profile');
                   }
                 }}>
                 <View style={[styles.pill, active && styles.pillActive]}>

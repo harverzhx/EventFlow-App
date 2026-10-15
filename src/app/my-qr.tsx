@@ -10,6 +10,7 @@ import { GlassSurface } from '@/components/glass-surface';
 import { QrCode } from '@/components/qr-code';
 import { CURRENT_USER, MOCK_EVENTS, MOCK_REGISTRATIONS } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/my-qr.styles';
 
 import Animated,
@@ -23,6 +24,7 @@ const MY_REGISTRATION = MOCK_REGISTRATIONS.find(
 const MY_EVENT = MOCK_EVENTS.find((event) => event.key === MY_REGISTRATION.eventKey)!;
 
 export default function MyQrScreen() {
+  useRouteGuard('/my-qr');
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 

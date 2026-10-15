@@ -25,8 +25,8 @@
 |---|---|---|
 | 0 | Project Inspection and Baseline | COMPLETE |
 | 1 | Shared Login Page and Demo Role Access | COMPLETE |
-| 2 | Shared Layout, Routing, and Navigation | NEXT |
-| 3 | Admin / Organizer Dashboard | PENDING |
+| 2 | Shared Layout, Routing, and Navigation | COMPLETE |
+| 3 | Admin / Organizer Dashboard | NEXT |
 | 4 | Event Management (list, details, create, edit, delete) | PENDING |
 | 5 | Participant Management | PENDING (screen exists, needs review) |
 | 6 | Participant Registration | PENDING (screens exist, needs review) |
@@ -158,31 +158,44 @@ src/
 
 ---
 
-## MODULE 2 — SHARED LAYOUT, ROUTING, AND NAVIGATION — PENDING
+## MODULE 2 — SHARED LAYOUT, ROUTING, AND NAVIGATION — COMPLETE
 
 **Goal:** Role-aware routing, logout, and frontend demo route guards.
 
 ### Tasks
-- [ ] Add demo session state (current role, in-memory — resets on refresh)
-- [ ] Add logout function (clears session, redirects to `/login`)
-- [ ] Add route guards (redirect unauthorized roles to their dashboard)
-- [ ] Role-aware bottom nav (different items per role)
-- [ ] Add Logout button to Profile screen
-- [ ] Ensure direct URL access is handled by demo guards
+- [x] Demo session state (current role, in-memory — resets on refresh) — added in Module 1 (`src/context/demo-session.tsx`)
+- [x] Add logout function (clears session, redirects to `/login`)
+- [x] Add route guards (redirect unauthorized roles to their dashboard)
+- [x] Role-aware bottom nav (Home/Events/Profile for admin + participant; Home/Scan/Profile for staff)
+- [x] Add Logout button to Profile screen (danger variant, view mode only)
+- [x] Direct URL access handled by demo guards
 
-### Completion Criteria
+### Completion Criteria — all met
 - Shared layout works
 - Navigation points to valid routes
 - Role-specific navigation displays correctly
 - Logout returns to Login
 - Direct URL access handled consistently
 
-### Files to Modify
-- `src/app/_layout.tsx` — route guards
-- `src/components/bottom-nav.tsx` — role-aware nav items
-- `src/app/profile.tsx` — add logout button
-- New: `src/hooks/use-demo-session.ts` — session state hook
-- New: `src/constants/permissions.ts` — route-to-role mapping
+### Files Changed
+- `src/constants/permissions.ts` — NEW: `ROUTE_ACCESS` map (permission matrix as code) + `canAccess()`
+- `src/hooks/use-route-guard.ts` — NEW: `useRouteGuard(route)` hook (redirects to /login or /dashboard)
+- 8 screens guarded: `create-event`, `register-event`, `my-qr`, `scan-qr`, `participants`, `attendance`, `reports`, `my-registrations`
+- `src/components/bottom-nav.tsx` — role-aware nav items; Staff gets Home/Scan/Profile
+- `src/app/profile.tsx` — Log Out button (danger, view mode only)
+
+### Route Access Map (demo guards — NOT a security boundary)
+| Route | Admin | Staff | Participant |
+|---|---|---|---|
+| /dashboard, /events, /profile | ✓ | ✓ | ✓ |
+| /create-event, /reports | ✓ | ✗ | ✗ |
+| /register-event, /my-qr, /my-registrations | ✓ | ✗ | ✓ |
+| /scan-qr, /participants, /attendance | ✓ | ✓ | ✗ |
+
+### Tests Performed
+- `npx tsc --noEmit` — clean (exit 0)
+- `npx expo lint` — clean (exit 0)
+- Note: browser interaction test not run — guards verified via code inspection only
 
 ---
 

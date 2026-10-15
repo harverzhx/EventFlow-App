@@ -10,12 +10,14 @@ import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { MOCK_EVENTS } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/reports.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
 export default function ReportsScreen() {
+  useRouteGuard('/reports');
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
