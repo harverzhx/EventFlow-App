@@ -34,25 +34,6 @@ const styles = StyleSheet.create({
     color: Colors.textMuted,
     textAlign: 'center',
   },
-  demoBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    gap: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    borderRadius: 999,
-    backgroundColor: Colors.primaryTint,
-  },
-  demoBadgeText: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xs,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-    color: Colors.primary,
-  },
   card: {
     padding: Spacing.four,
   },
@@ -132,15 +113,17 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   footer: {
+    marginTop: 'auto',
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.two,
+    justifyContent: 'center',
+    gap: Spacing.one,
   },
   footerNote: {
     fontFamily: Fonts.sans,
-    fontSize: FontSize.xs,
-    lineHeight: 16,
+    fontSize: FontSize.sm,
+    lineHeight: 20,
     color: Colors.textMuted,
-    textAlign: 'center',
   },
 });
 

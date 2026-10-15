@@ -127,9 +127,15 @@ src/
 - [x] Add demo login behavior (mock, clearly labeled as prototype)
 - [x] Redirect each role to its dashboard (`/dashboard`)
 - [x] Remove Sign Up link for Admin/Staff roles (per spec — no public Admin/Staff registration)
-- [x] Keep Sign Up only for Participant demo flow (sign-up.tsx preserved, just not linked from login)
+- [x] Keep Sign Up only for Participant demo flow (sign-up.tsx preserved, just not linked from login) — **REVERTED per user: Sign Up link kept on login**
 - [x] Preserve Forgot Password link but label it as unavailable (no backend)
 - [x] Update `index.tsx` to redirect to `/login` instead of `/dashboard`
+
+### User Revisions (2026-10-15)
+- Removed "Prototype demo login" badge — user does not want prototype labeling on the UI
+- Removed footer note "Demo prototype only — no real authentication" — user does not want it displayed
+- Restored Sign Up link + "Don't have an account?" footer on login — user wants the sign-up flow reachable
+- Note: security limitations remain documented in `task.md` and code comments, not on-screen
 
 ### Completion Criteria — all met
 - One shared Login Page works

@@ -9,16 +9,16 @@ import {
   TextInput,
   View
 } from 'react-native';
-import { Colors, Radius } from '@/constants/theme';
+import { Radius } from '@/constants/theme';
 import { BlurTargetView } from 'expo-blur';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather } from '@expo/vector-icons';
 import { AuroraBackground } from '@/components/aurora-background';
 import { BrandLogo } from '@/components/brand-logo';
 import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
+import { LinkButton } from '@/components/link-button';
 import { PrimaryButton } from '@/components/primary-button';
 import { DEMO_ACCOUNTS, useDemoSession } from '@/context/demo-session';
 import type { UserRole } from '@/data/mock';
@@ -89,11 +89,6 @@ export default function LoginScreen() {
             <BrandLogo size={92} animated />
             <Text style={styles.title}>Welcome back</Text>
             <Text style={styles.subtitle}>Sign in to continue to your EventFlow dashboard.</Text>
-
-            <View style={styles.demoBadge}>
-              <Feather name="info" size={13} color={Colors.primary} />
-              <Text style={styles.demoBadgeText}>Prototype demo login</Text>
-            </View>
           </Animated.View>
 
           <Animated.View entering={FadeInDown.delay(120).duration(520)}>
@@ -193,9 +188,8 @@ export default function LoginScreen() {
           </Animated.View>
 
           <Animated.View entering={FadeInDown.delay(240).duration(520)} style={styles.footer}>
-            <Text style={styles.footerNote}>
-              Demo prototype only — no real authentication, no accounts are verified.
-            </Text>
+            <Text style={styles.footerNote}>Don&apos;t have an account?</Text>
+            <LinkButton label="Sign Up" onPress={() => router.push('/sign-up')} />
           </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
