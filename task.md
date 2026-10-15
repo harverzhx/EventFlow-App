@@ -35,7 +35,7 @@
 | 9 | Attendance Management | COMPLETE |
 | 10 | Reports | COMPLETE |
 | 11 | User Management | COMPLETE |
-| 12 | Final Integration and QA | NEXT |
+| 12 | Final Integration and QA | COMPLETE |
 
 **Legend:** COMPLETE = tested · PARTIAL = partially done · PENDING = not started · BLOCKED = waiting on decision
 
@@ -491,3 +491,75 @@ src/
 | `83de315` | Merge remote LICENSE and README |
 | `98ce18d` | EventFlow app: full source, assets, screens, and project plan |
 | `0e91b2a` | Initial commit |
+
+
+---
+
+## MODULE 12 — FINAL INTEGRATION AND QA — COMPLETE (report)
+
+### Summary of Changes (whole build, Modules 1–12)
+- One shared login page with a clearly labeled demo role selector; login gate so `/` goes to `/login`
+- Demo session (`DemoSessionContext`) + events store (`EventsProvider`) + registrations store (`RegistrationsProvider`), all in-memory and resetting on refresh
+- Frontend demo route guards (`ROUTE_ACCESS` + `useRouteGuard`) enforcing the approved permission matrix
+- Role-aware dashboard (single `dashboard.tsx`, role-conditional content), role-aware bottom nav
+- Event management: list, detail, create, edit, delete-with-confirmation, validation, empty states
+- Participants, registration (duplicate prevention), own-QR, scanner simulation (duplicate check-in prevention), attendance records, reports, user management with demo role switching
+
+### Files Created
+- `src/context/demo-session.tsx`, `src/context/events.tsx`, `src/context/registrations.tsx`
+- `src/constants/permissions.ts`, `src/hooks/use-route-guard.ts`
+- `src/app/event-detail.tsx`, `src/app/edit-event.tsx`, `src/app/user-management.tsx`
+- `src/styles/event-detail.styles.ts`, `src/styles/edit-event.styles.ts`, `src/styles/user-management.styles.ts`
+
+### How Demo Login Works
+Pick a role on the login page (Admin / Staff / Participant). The demo account email is pre-filled; any password works because there is no authentication — the role selector only sets the in-memory demo session that drives permissions. Refresh resets everything to the login screen.
+
+### Tests Performed (actual results)
+| Test | Result |
+|---|---|
+| `/` redirects to `/login` | PASS |
+| Login gate on direct URL without session | PASS (→ `/login`) |
+| Role selector pre-fills demo email | PASS (admin/staff/participant) |
+| Admin login → dashboard stats 6 / 449 / 132 / 570 + Create/Participants/Attendance/Reports/Users | PASS |
+| Participant login → "Welcome, Marian!" + Register / My QR / My Events only | PASS |
+| Events list renders 6 events | PASS |
+| Event detail: schedule, venue, organizer, progress 74% | PASS |
+| Edit Event → prefilled form navigates correctly | PASS |
+| Delete Event → confirmation dialog (code path verified; native dialog not observable headless) | PASS (code path) |
+| Participant → `/reports` → redirected to `/login` | PASS |
+| In-app nav (Events tab, back button) | PASS |
+| `npx tsc --noEmit` | PASS (clean) |
+| `npx expo lint` | PASS (clean) |
+
+### Bugs Found and Fixed During QA
+1. Dashboard showed hardcoded admin user regardless of login role → now session-driven
+2. Profile showed hardcoded admin user → now session-driven
+3. Event-detail Register button never stored a registration → now uses the store with duplicate prevention
+4. Login email field empty until a role was clicked → now pre-filled
+
+### Features That Work (frontend demo)
+Login + role selection, role-aware dashboard/nav, event CRUD (in-memory), validation, delete confirmation, registration with duplicate prevention, own QR display, simulated scan + check-in with duplicate prevention, attendance records, reports from live data, user list with demo role switch, logout, route guards, empty states.
+
+### Simulated (Not Real)
+- QR codes are pure-view mock patterns (not scannable)
+- Scanner is a simulation (no camera)
+- Authentication is a demo selector, not identity verification
+- All data resets on refresh (React state only)
+
+### Not Available (No Backend)
+- Real accounts, password recovery, persistent records, secure authorization, real QR validation, file export of reports
+
+### Known Limitations
+- Frontend guards can be bypassed via dev tools — demonstration only
+- Refresh clears session, events, and registrations (intentional)
+- Date fields are free text (no date picker)
+- Export button shows an alert instead of producing a file
+
+### How to Run and Test
+```bash
+cd "EventFlow"
+npx expo start --web    # or npm run web
+```
+1. Open the app → login page appears
+2. Pick a role → Login (any password)
+3. Exercise that role's screens; use Log Out on the Profile screen to switch roles
