@@ -1,13 +1,8 @@
+import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import styles from '@/styles/aurora-background.styles';
 
 type AuroraBackgroundProps = {
   /** Keeps the wash subtle on screens that already have a coloured header. */
@@ -110,14 +105,3 @@ export function AuroraBackground({ intensity = 1 }: AuroraBackgroundProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  glow: {
-    position: 'absolute',
-    overflow: 'hidden',
-  },
-  glowFill: {
-    flex: 1,
-    borderRadius: 999,
-  },
-});

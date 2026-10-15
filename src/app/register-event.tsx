@@ -1,17 +1,19 @@
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Colors, Radius } from '@/constants/theme';
 import { Feather } from '@expo/vector-icons';
 import { BlurTargetView } from 'expo-blur';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View, ScrollView } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
-import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
 import { CURRENT_USER, MOCK_EVENTS } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import styles from '@/styles/register-event.styles';
+
+import Animated,
+  { FadeInDown } from 'react-native-reanimated';
 
 export default function RegisterEventScreen() {
   const blurTarget = useRef<View>(null);
@@ -131,152 +133,3 @@ export default function RegisterEventScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  root: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  shell: {
-    flex: 1,
-    paddingTop: Spacing.three,
-  },
-  shellContent: {
-    paddingBottom: Spacing.six,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.three,
-  },
-  backButton: {
-    width: 44,
-    height: 44,
-    borderRadius: Radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.surface,
-  },
-  headerText: {
-    flex: 1,
-    gap: 2,
-  },
-  eyebrow: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xs,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 1.6,
-    color: Colors.primary,
-  },
-  title: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xl,
-    lineHeight: 32,
-    fontWeight: '700',
-    color: Colors.navy,
-  },
-  subtitle: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.sm,
-    lineHeight: 20,
-    color: Colors.textMuted,
-  },
-  section: {
-    paddingTop: Spacing.three,
-    paddingBottom: Spacing.three,
-    gap: Spacing.one,
-  },
-  sectionTitle: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.lg,
-    lineHeight: 26,
-    fontWeight: '700',
-    color: Colors.navy,
-  },
-  sectionHint: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.sm,
-    lineHeight: 20,
-    color: Colors.textMuted,
-  },
-  eventList: {
-    gap: Spacing.three,
-  },
-  eventRow: {
-    padding: Spacing.three,
-  },
-  eventRowSelected: {
-    borderWidth: 2,
-    borderColor: Colors.primary,
-  },
-  eventRowInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.three,
-  },
-  dateBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: Radius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 1,
-    backgroundColor: Colors.primaryTint,
-  },
-  dateDay: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.lg,
-    lineHeight: 22,
-    fontWeight: '700',
-    color: Colors.primary,
-  },
-  dateMonth: {
-    fontFamily: Fonts.sans,
-    fontSize: 10,
-    lineHeight: 12,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-    color: Colors.primary,
-  },
-  eventInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  eventTitle: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.md,
-    lineHeight: 22,
-    fontWeight: '700',
-    color: Colors.navy,
-  },
-  eventMeta: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xs,
-    lineHeight: 18,
-    color: Colors.textMuted,
-  },
-  radio: {
-    width: 24,
-    height: 24,
-    borderRadius: Radius.pill,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioSelected: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary,
-  },
-  actions: {
-    paddingTop: Spacing.three,
-  },
-  spacer: {
-    height: 120,
-  },
-});

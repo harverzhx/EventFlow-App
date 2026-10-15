@@ -1,6 +1,3 @@
-import { BlurTargetView } from 'expo-blur';
-import { router } from 'expo-router';
-import { useRef, useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -10,21 +7,29 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
+import { Colors, Radius } from '@/constants/theme';
+import { BlurTargetView } from 'expo-blur';
+import { router } from 'expo-router';
+import { useRef, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { AuroraBackground } from '@/components/aurora-background';
 import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
 import { LinkButton } from '@/components/link-button';
 import { PrimaryButton } from '@/components/primary-button';
-import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
+import styles from '@/styles/sign-up.styles';
+
+import Animated,
+  { FadeIn,
+  FadeInDown,
+  FadeInUp } from 'react-native-reanimated';
 
 export default function SignUpScreen() {
   const [name, setName] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -161,64 +166,3 @@ export default function SignUpScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  content: {
-    flexGrow: 1,
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.three,
-    gap: Spacing.four,
-  },
-  back: {
-    width: 44,
-    height: 44,
-    borderRadius: Radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.surface,
-  },
-  card: {
-    padding: Spacing.four,
-    gap: Spacing.four,
-  },
-  header: {
-    gap: Spacing.two,
-  },
-  title: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xl,
-    lineHeight: 32,
-    fontWeight: '700',
-    color: Colors.navy,
-  },
-  subtitle: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.md,
-    lineHeight: 22,
-    color: Colors.textMuted,
-  },
-  form: {
-    gap: Spacing.three,
-  },
-  footer: {
-    marginTop: 'auto',
-    paddingTop: Spacing.four,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.one,
-  },
-  footerText: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.sm,
-    lineHeight: 20,
-    color: Colors.textMuted,
-  },
-});

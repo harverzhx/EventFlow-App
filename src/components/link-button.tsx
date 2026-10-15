@@ -1,10 +1,14 @@
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { Platform, Pressable, Text, View } from 'react-native';
+import styles from '@/styles/link-button.styles';
 
-import { Colors, FontSize, Fonts } from '@/constants/theme';
+import Animated,
+  { useAnimatedStyle,
+  useSharedValue,
+  withTiming } from 'react-native-reanimated';
 
 type LinkButtonProps = {
   label: string;
+
   onPress: () => void;
 };
 
@@ -48,19 +52,3 @@ export function LinkButton({ label, onPress }: LinkButtonProps) {
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  label: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.sm,
-    lineHeight: 20,
-    fontWeight: '700',
-    color: Colors.primary,
-  },
-  underline: {
-    height: 1.5,
-    borderRadius: 1,
-    backgroundColor: Colors.primary,
-    transformOrigin: 'left',
-  },
-});

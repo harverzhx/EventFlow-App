@@ -1,16 +1,11 @@
-import type { ReactNode } from 'react';
-import { Platform, Pressable, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  type EntryOrExitLayoutType,
-} from 'react-native-reanimated';
-
-import { Radius } from '@/constants/theme';
+import { ReactNode } from 'react';
+import { Platform, Pressable, type StyleProp, type ViewStyle } from 'react-native';
+import Animated, { type EntryOrExitLayoutType, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import styles from '@/styles/animated-pressable.styles';
 
 type AnimatedPressableProps = {
   children: ReactNode;
+
   onPress?: () => void;
   /** Layout styles for the animated wrapper. */
   style?: StyleProp<ViewStyle>;
@@ -87,14 +82,3 @@ export function AnimatedPressable({
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    borderRadius: Radius.lg,
-    shadowColor: '#0B1F3A',
-  },
-  surface: {
-    flexGrow: 1,
-    borderRadius: Radius.lg,
-  },
-});

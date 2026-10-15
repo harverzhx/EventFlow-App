@@ -1,9 +1,9 @@
+import { Platform, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Radius } from '@/constants/theme';
 import { BlurView } from 'expo-blur';
 import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
-import type { ReactNode, RefObject } from 'react';
-import { Platform, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
-
-import { Radius } from '@/constants/theme';
+import { ReactNode, RefObject } from 'react';
+import styles from '@/styles/glass-surface.styles';
 
 const supportsLiquidGlass = Platform.OS === 'ios' && isGlassEffectAPIAvailable();
 
@@ -59,9 +59,3 @@ export function GlassSurface({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  clip: {
-    overflow: 'hidden',
-  },
-});

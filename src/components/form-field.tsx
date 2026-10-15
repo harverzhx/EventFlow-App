@@ -1,25 +1,13 @@
+import { Colors } from '@/constants/theme';
 import { Feather } from '@expo/vector-icons';
 import { forwardRef, useState } from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  type TextInputProps,
-} from 'react-native';
-import Animated, {
-  interpolate,
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-
-import { Colors, FontSize, Fonts, Radius, Spacing } from '@/constants/theme';
+import { Pressable, Text, TextInput, View, type TextInputProps } from 'react-native';
+import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import styles from '@/styles/form-field.styles';
 
 type FormFieldProps = TextInputProps & {
   label: string;
+
   icon: keyof typeof Feather.glyphMap;
   error?: string;
 };
@@ -83,42 +71,4 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(function FormFiel
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  field: {
-    gap: Spacing.two,
-  },
-  label: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.sm,
-    lineHeight: 20,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.three,
-    height: 56,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.background,
-    shadowColor: Colors.primary,
-  },
-  input: {
-    flex: 1,
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.md,
-    lineHeight: 22,
-    color: Colors.text,
-  },
-  error: {
-    fontFamily: Fonts.sans,
-    fontSize: FontSize.xs,
-    lineHeight: 18,
-    color: Colors.danger,
-  },
 });

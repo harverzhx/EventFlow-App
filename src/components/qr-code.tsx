@@ -1,6 +1,5 @@
-import { StyleSheet, View } from 'react-native';
-
-import { Colors } from '@/constants/theme';
+import { View } from 'react-native';
+import styles from '@/styles/qr-code.styles';
 
 type QrCodeProps = {
   /** Value encoded in the pattern; drives the deterministic pattern. */
@@ -76,23 +75,3 @@ export function QrCode({ value, size = 220 }: QrCodeProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  cell: {
-    position: 'absolute',
-    backgroundColor: '#0B1F3A',
-  },
-  finder: {
-    position: 'absolute',
-    width: 8,
-    height: 8,
-    borderWidth: 3,
-    borderColor: '#0B1F3A',
-    borderRadius: 2,
-  },
-});

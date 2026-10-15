@@ -1,8 +1,8 @@
+import { View } from 'react-native';
+import { Colors } from '@/constants/theme';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-
-import { Colors } from '@/constants/theme';
+import styles from '@/styles/_layout.styles';
 
 export default function RootLayout() {
   return (
@@ -30,11 +30,5 @@ export default function RootLayout() {
       </Stack>
     </View>
   );
-}
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-});
+}
