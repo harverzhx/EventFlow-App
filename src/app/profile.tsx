@@ -11,7 +11,7 @@ import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { useDemoSession } from '@/context/demo-session';
-import { CURRENT_USER, ROLE_LABEL } from '@/data/mock';
+import { ROLE_LABEL } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 import styles from '@/styles/profile.styles';
 
@@ -26,14 +26,6 @@ type UserInfo = {
   location: string;
 };
 
-const INITIAL_INFO: UserInfo = {
-  name: CURRENT_USER.name,
-  email: CURRENT_USER.email,
-  role: ROLE_LABEL[CURRENT_USER.role],
-  phone: '+63 917 123 4567',
-  location: 'Cagayan de Oro, Philippines',
-};
-
 const FIELDS = [
   { key: 'name', label: 'Full Name', icon: 'user', placeholder: 'Your full name' },
   { key: 'email', label: 'Email', icon: 'mail', placeholder: 'you@example.com' },
@@ -43,9 +35,17 @@ const FIELDS = [
 ] as const;
 
 export default function ProfileScreen() {
-  const { signOut } = useDemoSession();
+  const { user, signOut } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  const INITIAL_INFO: UserInfo = {
+    name: user?.name ?? 'Guest',
+    email: user?.email ?? '',
+    role: user ? ROLE_LABEL[user.role] : 'Not signed in',
+    phone: '+63 917 123 4567',
+    location: 'Cagayan de Oro, Philippines',
+  };
 
   const [info, setInfo] = useState<UserInfo>(INITIAL_INFO);
   const [draft, setDraft] = useState<UserInfo>(INITIAL_INFO);

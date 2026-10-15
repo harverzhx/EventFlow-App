@@ -37,7 +37,7 @@ const DEMO_ROLES: { key: UserRole; label: string; caption: string }[] = [
 export default function LoginScreen() {
   const { signIn } = useDemoSession();
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(DEMO_ACCOUNTS.admin.email);
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole>('admin');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});

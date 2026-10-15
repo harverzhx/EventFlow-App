@@ -9,6 +9,7 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
@@ -21,7 +22,8 @@ export default function EventDetailScreen() {
   useRouteGuard('/events');
   const { eventKey } = useLocalSearchParams<{ eventKey: string }>();
   const { getEvent, deleteEvent } = useEvents();
-  const { role } = useDemoSession();
+  const { register, isRegistered } = useRegistrations();
+  const { role, user } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
@@ -49,6 +51,8 @@ export default function EventDetailScreen() {
     100
   );
 
+  const alreadyRegistered = user ? isRegistered(user.key, event.key) : false;
+
   function handleDelete() {
     Alert.alert(
       'Delete event?',
@@ -70,10 +74,19 @@ export default function EventDetailScreen() {
   }
 
   function handleRegister() {
+    if (!event || !user) {
+      return;
+    }
+
+    if (isRegistered(user.key, event.key)) {
+      Alert.alert('Already registered', 'You are already registered for this event.');
+      return;
+    }
+
+    register(user.key, event.key, user.name);
     Alert.alert(
       'Registered',
-      `You are registered for "${event?.title}". (Prototype — no data was saved.)`,
-      [{ text: 'OK' }]
+      `You are registered for "${event.title}". Your QR code is ready. (Prototype — in-memory only.)`
     );
   }
 
@@ -199,7 +212,13 @@ export default function EventDetailScreen() {
                 <PrimaryButton label="Delete Event" icon="trash-2" variant="danger" onPress={handleDelete} />
               </>
             ) : role === 'participant' ? (
-              <PrimaryButton label="Register for this Event" icon="edit-3" onPress={handleRegister} />
+              <PrimaryButton
+                label={alreadyRegistered ? 'Already Registered — View QR' : 'Register for this Event'}
+                icon={alreadyRegistered ? 'grid' : 'edit-3'}
+                onPress={() =>
+                  alreadyRegistered ? router.push('/my-qr') : handleRegister()
+                }
+              />
             ) : null}
           </Animated.View>
 

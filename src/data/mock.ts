@@ -154,6 +154,7 @@ export function quickActionsForRole(role: UserRole) {
       { key: 'participants', label: 'Participants', caption: 'Registered list', icon: 'users', route: '/participants' },
       { key: 'attendance', label: 'Attendance', caption: 'Check-in records', icon: 'check-square', route: '/attendance' },
       { key: 'reports', label: 'Reports', caption: 'Summary & export', icon: 'bar-chart-2', route: '/reports' },
+      { key: 'users', label: 'Users', caption: 'Manage accounts', icon: 'user-check', route: '/user-management' },
     ] as const;
   }
 

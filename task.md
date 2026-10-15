@@ -28,14 +28,14 @@
 | 2 | Shared Layout, Routing, and Navigation | COMPLETE |
 | 3 | Admin / Organizer Dashboard | COMPLETE |
 | 4 | Event Management (list, details, create, edit, delete) | COMPLETE |
-| 5 | Participant Management | NEXT |
-| 6 | Participant Registration | PENDING (screens exist, needs review) |
-| 7 | QR Code Generation | PENDING (screen exists, needs review) |
-| 8 | QR Scanner and Registration Verification | PENDING (screen exists, needs review) |
-| 9 | Attendance Management | PENDING (screen exists, needs review) |
-| 10 | Reports | PENDING (screen exists, needs review) |
-| 11 | User Management | PENDING (needs new screen) |
-| 12 | Final Integration and QA | PENDING |
+| 5 | Participant Management | COMPLETE |
+| 6 | Participant Registration | COMPLETE |
+| 7 | QR Code Generation | COMPLETE |
+| 8 | QR Scanner and Registration Verification | COMPLETE |
+| 9 | Attendance Management | COMPLETE |
+| 10 | Reports | COMPLETE |
+| 11 | User Management | COMPLETE |
+| 12 | Final Integration and QA | NEXT |
 
 **Legend:** COMPLETE = tested · PARTIAL = partially done · PENDING = not started · BLOCKED = waiting on decision
 
@@ -277,7 +277,7 @@ src/
 
 ---
 
-## MODULE 5 — PARTICIPANT MANAGEMENT — PENDING
+## MODULE 5 — PARTICIPANT MANAGEMENT — COMPLETE
 
 **Goal:** Admin participant list with sample data, search/filter if needed.
 
@@ -297,7 +297,7 @@ src/
 
 ---
 
-## MODULE 6 — PARTICIPANT REGISTRATION — PENDING
+## MODULE 6 — PARTICIPANT REGISTRATION — COMPLETE
 
 **Goal:** Browse events, register, view registrations, prevent duplicates.
 
@@ -318,7 +318,7 @@ src/
 
 ---
 
-## MODULE 7 — QR CODE GENERATION — PENDING
+## MODULE 7 — QR CODE GENERATION — COMPLETE
 
 **Goal:** Display QR for participant's own registration.
 
@@ -339,7 +339,7 @@ src/
 
 ---
 
-## MODULE 8 — QR SCANNER AND REGISTRATION VERIFICATION — PENDING
+## MODULE 8 — QR SCANNER AND REGISTRATION VERIFICATION — COMPLETE
 
 **Goal:** Scanner UI for Admin/Staff, simulate scan, verify registration, prevent duplicate check-in.
 
@@ -361,7 +361,7 @@ src/
 
 ---
 
-## MODULE 9 — ATTENDANCE MANAGEMENT — PENDING
+## MODULE 9 — ATTENDANCE MANAGEMENT — COMPLETE
 
 **Goal:** Record attendance, display records, prevent duplicates.
 
@@ -382,7 +382,7 @@ src/
 
 ---
 
-## MODULE 10 — REPORTS — PENDING
+## MODULE 10 — REPORTS — COMPLETE
 
 **Goal:** Registration and attendance report views, Admin-only.
 
@@ -403,7 +403,7 @@ src/
 
 ---
 
-## MODULE 11 — USER MANAGEMENT — PENDING
+## MODULE 11 — USER MANAGEMENT — COMPLETE
 
 **Goal:** Admin user management interface (view users, roles, sample data).
 

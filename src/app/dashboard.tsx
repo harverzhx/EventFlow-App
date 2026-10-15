@@ -10,48 +10,50 @@ import { AnimatedPressable } from '@/components/animated-pressable';
 import { AuroraBackground } from '@/components/aurora-background';
 import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
-import { CURRENT_USER, MOCK_EVENTS, ROLE_LABEL, quickActionsForRole } from '@/data/mock';
+import { useDemoSession } from '@/context/demo-session';
+import { useEvents } from '@/context/events';
+import { ROLE_LABEL, quickActionsForRole } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/dashboard.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
-/** The signed-in demo user — falls back to the admin sample account. */
-const ACTIVE_USER = CURRENT_USER;
-
-const QUICK_ACTIONS = quickActionsForRole(ACTIVE_USER.role);
-
-const UPCOMING_EVENTS = MOCK_EVENTS.slice(0, 3);
-
-type StatIcon = 'calendar' | 'users' | 'check-square' | 'grid';
-
-/** Summary stats derived from the sample event data (no backend). */
-const STATS: { key: string; label: string; value: number; icon: StatIcon }[] = [
-  { key: 'events', label: 'Total Events', value: MOCK_EVENTS.length, icon: 'calendar' },
-  {
-    key: 'registered',
-    label: 'Registrations',
-    value: MOCK_EVENTS.reduce((sum, event) => sum + event.registered, 0),
-    icon: 'users',
-  },
-  {
-    key: 'attended',
-    label: 'Attended',
-    value: MOCK_EVENTS.reduce((sum, event) => sum + event.attended, 0),
-    icon: 'check-square',
-  },
-  {
-    key: 'capacity',
-    label: 'Total Seats',
-    value: MOCK_EVENTS.reduce((sum, event) => sum + event.capacity, 0),
-    icon: 'grid',
-  },
-];
-
 export default function DashboardScreen() {
+  useRouteGuard('/dashboard');
+  const { user } = useDemoSession();
+  const { events } = useEvents();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  const activeRole = user?.role ?? 'participant';
+  const displayName = user?.name.split(' ')[0] ?? 'there';
+  const QUICK_ACTIONS = quickActionsForRole(activeRole);
+  const UPCOMING_EVENTS = events.slice(0, 3);
+
+  /** Summary stats derived from the sample event data (no backend). */
+  const stats: { key: string; label: string; value: number; icon: 'calendar' | 'users' | 'check-square' | 'grid' }[] = [
+    { key: 'events', label: 'Total Events', value: events.length, icon: 'calendar' },
+    {
+      key: 'registered',
+      label: 'Registrations',
+      value: events.reduce((sum, event) => sum + event.registered, 0),
+      icon: 'users',
+    },
+    {
+      key: 'attended',
+      label: 'Attended',
+      value: events.reduce((sum, event) => sum + event.attended, 0),
+      icon: 'check-square',
+    },
+    {
+      key: 'capacity',
+      label: 'Total Seats',
+      value: events.reduce((sum, event) => sum + event.capacity, 0),
+      icon: 'grid',
+    },
+  ];
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -74,7 +76,7 @@ export default function DashboardScreen() {
               <View style={styles.headerRow}>
                 <View style={styles.greeting}>
                   <Text style={styles.eyebrow}>EVENTFLOW</Text>
-                  <Text style={styles.title}>Welcome, {CURRENT_USER.name.split(' ')[0]}!</Text>
+                  <Text style={styles.title}>Welcome, {displayName}!</Text>
                   <Text style={styles.subtitle}>You have {UPCOMING_EVENTS.length} upcoming events this week.</Text>
                 </View>
 
@@ -100,7 +102,7 @@ export default function DashboardScreen() {
           <Animated.View
             entering={FadeInDown.delay(80).duration(480)}
             style={styles.statsWrap}>
-            {STATS.map((stat) => (
+            {stats.map((stat) => (
               <GlassSurface
                 key={stat.key}
                 style={styles.statCard}
@@ -123,7 +125,7 @@ export default function DashboardScreen() {
             entering={FadeInDown.delay(120).duration(480)}
             style={styles.section}>
             <Text style={styles.sectionTitle}>Quick Actions</Text>
-            <Text style={styles.sectionHint}>Tools for your {ROLE_LABEL[CURRENT_USER.role].split(' / ')[0]} role.</Text>
+            <Text style={styles.sectionHint}>Tools for your {ROLE_LABEL[activeRole].split(' / ')[0]} role.</Text>
           </Animated.View>
 
           <View style={styles.grid}>
