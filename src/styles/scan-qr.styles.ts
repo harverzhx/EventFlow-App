@@ -184,6 +184,16 @@ const styles = StyleSheet.create({
   resultActions: {
     paddingTop: Spacing.two,
   },
+  verifiedIconOff: {
+    backgroundColor: Colors.surface,
+  },
+  invalidNote: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.sm,
+    lineHeight: 20,
+    color: Colors.textMuted,
+    textAlign: 'center',
+  },
   spacer: {
     height: 120,
   },

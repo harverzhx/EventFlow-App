@@ -8,7 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
-import { MOCK_EVENTS, MOCK_REGISTRATIONS } from '@/data/mock';
+import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/attendance.styles';
@@ -18,11 +19,13 @@ import Animated,
 
 export default function AttendanceScreen() {
   useRouteGuard('/attendance');
+  const { events } = useEvents();
+  const { registrationsForEvent } = useRegistrations();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
-  const [eventKey, setEventKey] = useState(MOCK_EVENTS[0].key);
-  const registrations = MOCK_REGISTRATIONS.filter((reg) => reg.eventKey === eventKey);
+  const [eventKey, setEventKey] = useState(events[0]?.key ?? '');
+  const registrations = registrationsForEvent(eventKey);
   const attended = registrations.filter((reg) => reg.attended).length;
 
   return (
@@ -59,7 +62,7 @@ export default function AttendanceScreen() {
             showsHorizontalScrollIndicator={false}
             style={styles.selector}
             contentContainerStyle={styles.selectorContent}>
-            {MOCK_EVENTS.map((item) => {
+            {events.map((item) => {
               const selected = item.key === eventKey;
               return (
                 <Pressable
@@ -117,43 +120,53 @@ export default function AttendanceScreen() {
 
           {/* Records */}
           <View style={styles.list}>
-            {registrations.map((reg, index) => (
-              <Animated.View
-                key={reg.key}
-                entering={FadeInDown.delay(180 + index * 60).duration(440)}>
-                <GlassSurface
-                  style={styles.row}
-                  borderRadius={Radius.lg}
-                  blurTarget={blurTarget}
-                  intensity={40}
-                  overlayColor="rgba(255, 255, 255, 0.7)"
-                  tintColor="rgba(255, 255, 255, 0.7)">
-                  <View style={styles.avatarBadge}>
-                    <Feather name="user" size={20} color={Colors.primary} />
-                  </View>
+            {registrations.length === 0 ? (
+              <View style={styles.empty}>
+                <Feather name="check-square" size={40} color={Colors.textMuted} />
+                <Text style={styles.emptyTitle}>No attendance records</Text>
+                <Text style={styles.emptyText}>
+                  Participants will appear here once they register for this event.
+                </Text>
+              </View>
+            ) : (
+              registrations.map((reg, index) => (
+                <Animated.View
+                  key={reg.key}
+                  entering={FadeInDown.delay(180 + index * 60).duration(440)}>
+                  <GlassSurface
+                    style={styles.row}
+                    borderRadius={Radius.lg}
+                    blurTarget={blurTarget}
+                    intensity={40}
+                    overlayColor="rgba(255, 255, 255, 0.7)"
+                    tintColor="rgba(255, 255, 255, 0.7">
+                    <View style={styles.avatarBadge}>
+                      <Feather name="user" size={20} color={Colors.primary} />
+                    </View>
 
-                  <View style={styles.rowInfo}>
-                    <Text style={styles.rowName} numberOfLines={1}>
-                      {reg.name}
-                    </Text>
-                    <Text style={styles.rowMeta} numberOfLines={1}>
-                      {reg.qrCode}
-                    </Text>
-                  </View>
+                    <View style={styles.rowInfo}>
+                      <Text style={styles.rowName} numberOfLines={1}>
+                        {reg.name}
+                      </Text>
+                      <Text style={styles.rowMeta} numberOfLines={1}>
+                        {reg.qrCode}
+                      </Text>
+                    </View>
 
-                  <View style={[styles.badge, reg.attended ? styles.badgeOn : styles.badgeOff]}>
-                    <Feather
-                      name={reg.attended ? 'check' : 'x'}
-                      size={12}
-                      color={reg.attended ? Colors.primary : Colors.textMuted}
-                    />
-                    <Text style={[styles.badgeText, reg.attended ? styles.badgeTextOn : styles.badgeTextOff]}>
-                      {reg.attended ? 'Present' : 'Absent'}
-                    </Text>
-                  </View>
-                </GlassSurface>
-              </Animated.View>
-            ))}
+                    <View style={[styles.badge, reg.attended ? styles.badgeOn : styles.badgeOff]}>
+                      <Feather
+                        name={reg.attended ? 'check' : 'x'}
+                        size={12}
+                        color={reg.attended ? Colors.primary : Colors.textMuted}
+                      />
+                      <Text style={[styles.badgeText, reg.attended ? styles.badgeTextOn : styles.badgeTextOff]}>
+                        {reg.attended ? 'Present' : 'Absent'}
+                      </Text>
+                    </View>
+                  </GlassSurface>
+                </Animated.View>
+              ))
+            )}
           </View>
 
           <Animated.View entering={FadeInDown.delay(320).duration(440)} style={styles.actions}>

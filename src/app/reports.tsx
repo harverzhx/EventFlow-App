@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
-import { MOCK_EVENTS } from '@/data/mock';
+import { useEvents } from '@/context/events';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/reports.styles';
@@ -18,12 +18,13 @@ import Animated,
 
 export default function ReportsScreen() {
   useRouteGuard('/reports');
+  const { events } = useEvents();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
-  const totalEvents = MOCK_EVENTS.length;
-  const totalRegistered = MOCK_EVENTS.reduce((sum, event) => sum + event.registered, 0);
-  const totalAttended = MOCK_EVENTS.reduce((sum, event) => sum + event.attended, 0);
+  const totalEvents = events.length;
+  const totalRegistered = events.reduce((sum, event) => sum + event.registered, 0);
+  const totalAttended = events.reduce((sum, event) => sum + event.attended, 0);
   const attendanceRate = totalRegistered > 0 ? Math.round((totalAttended / totalRegistered) * 100) : 0;
 
   return (
@@ -117,7 +118,7 @@ export default function ReportsScreen() {
           </Animated.View>
 
           <ScrollView style={styles.list}>
-            {MOCK_EVENTS.map((event, index) => {
+            {events.map((event, index) => {
               const rate = event.registered > 0 ? Math.round((event.attended / event.registered) * 100) : 0;
               return (
                 <Animated.View

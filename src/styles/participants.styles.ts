@@ -164,6 +164,26 @@ const styles = StyleSheet.create({
   badgeTextOff: {
     color: Colors.textMuted,
   },
+  empty: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.two,
+    paddingVertical: Spacing.six,
+  },
+  emptyTitle: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.lg,
+    lineHeight: 26,
+    fontWeight: '700',
+    color: Colors.navy,
+  },
+  emptyText: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.sm,
+    lineHeight: 20,
+    color: Colors.textMuted,
+    textAlign: 'center',
+  },
   spacer: {
     height: 120,
   },

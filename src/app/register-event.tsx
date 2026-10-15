@@ -8,7 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
-import { CURRENT_USER, MOCK_EVENTS } from '@/data/mock';
+import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
+import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/register-event.styles';
@@ -18,18 +20,42 @@ import Animated,
 
 export default function RegisterEventScreen() {
   useRouteGuard('/register-event');
+  const { events } = useEvents();
+  const { register, isRegistered } = useRegistrations();
+  const { user } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [registered, setRegistered] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
 
   function handleRegister() {
+    if (!selectedEvent || !user) {
+      return;
+    }
+
+    if (isRegistered(user.key, selectedEvent)) {
+      setDuplicate(true);
+      Alert.alert(
+        'Already registered',
+        'You are already registered for this event. (Duplicate registration prevented.)'
+      );
+      return;
+    }
+
+    register(user.key, selectedEvent, user.name);
     setRegistered(true);
     Alert.alert(
       'Registration complete',
-      'Your QR code is ready. Show it at the check-in table. (Mock — no data was saved.)'
+      'Your QR code is ready. Show it at the check-in table. (Prototype — in-memory only.)'
     );
+  }
+
+  function selectEvent(key: string) {
+    setSelectedEvent(key);
+    setRegistered(false);
+    setDuplicate(false);
   }
 
   return (
@@ -56,7 +82,7 @@ export default function RegisterEventScreen() {
             <View style={styles.headerText}>
               <Text style={styles.eyebrow}>EVENTFLOW</Text>
               <Text style={styles.title}>Register for an Event</Text>
-              <Text style={styles.subtitle}>Participant: {CURRENT_USER.name}</Text>
+              <Text style={styles.subtitle}>Participant: {user?.name ?? 'Unknown'}</Text>
             </View>
           </Animated.View>
 
@@ -68,55 +94,63 @@ export default function RegisterEventScreen() {
           </Animated.View>
 
           <View style={styles.eventList}>
-            {MOCK_EVENTS.map((event, index) => {
-              const selected = selectedEvent === event.key;
+            {events.length === 0 ? (
+              <View style={styles.empty}>
+                <Feather name="calendar" size={40} color={Colors.textMuted} />
+                <Text style={styles.emptyTitle}>No events available</Text>
+                <Text style={styles.emptyText}>
+                  There are no events open for registration right now.
+                </Text>
+              </View>
+            ) : (
+              events.map((event, index) => {
+                const selected = selectedEvent === event.key;
 
-              return (
-                <Animated.View
-                  key={event.key}
-                  entering={FadeInDown.delay(180 + index * 60).duration(440)}>
-                  <GlassSurface
-                    style={[styles.eventRow, selected && styles.eventRowSelected]}
-                    borderRadius={Radius.lg}
-                    blurTarget={blurTarget}
-                    intensity={40}
-                    overlayColor="rgba(255, 255, 255, 0.7)"
-                    tintColor="rgba(255, 255, 255, 0.7)"
-                    isInteractive>
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel={`Select ${event.title}`}
-                      onPress={() => {
-                        setSelectedEvent(event.key);
-                        setRegistered(false);
-                      }}>
-                      <View style={styles.eventRowInner}>
-                        <View style={styles.dateBadge}>
-                          <Text style={styles.dateDay}>{event.day}</Text>
-                          <Text style={styles.dateMonth}>{event.month}</Text>
-                        </View>
+                return (
+                  <Animated.View
+                    key={event.key}
+                    entering={FadeInDown.delay(180 + index * 60).duration(440)}>
+                    <GlassSurface
+                      style={[styles.eventRow, selected && styles.eventRowSelected]}
+                      borderRadius={Radius.lg}
+                      blurTarget={blurTarget}
+                      intensity={40}
+                      overlayColor="rgba(255, 255, 255, 0.7)"
+                      tintColor="rgba(255, 255, 255, 0.7"
+                      isInteractive>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`Select ${event.title}`}
+                        onPress={() => selectEvent(event.key)}>
+                        <View style={styles.eventRowInner}>
+                          <View style={styles.dateBadge}>
+                            <Text style={styles.dateDay}>{event.day}</Text>
+                            <Text style={styles.dateMonth}>{event.month}</Text>
+                          </View>
 
-                        <View style={styles.eventInfo}>
-                          <Text style={styles.eventTitle} numberOfLines={1}>
-                            {event.title}
-                          </Text>
-                          <Text style={styles.eventMeta} numberOfLines={1}>
-                            {event.time} · {event.venue}
-                          </Text>
-                          <Text style={styles.eventMeta} numberOfLines={1}>
-                            {event.registered}/{event.capacity} registered
-                          </Text>
-                        </View>
+                          <View style={styles.eventInfo}>
+                            <Text style={styles.eventTitle} numberOfLines={1}>
+                              {event.title}
+                            </Text>
+                            <Text style={styles.eventMeta} numberOfLines={1}>
+                              {event.time} · {event.venue}
+                            </Text>
+                            <Text style={styles.eventMeta} numberOfLines={1}>
+                              {event.registered}/{event.capacity} registered
+                              {user && isRegistered(user.key, event.key) ? ' · You joined' : ''}
+                            </Text>
+                          </View>
 
-                        <View style={[styles.radio, selected && styles.radioSelected]}>
-                          {selected ? <Feather name="check" size={14} color={Colors.white} /> : null}
+                          <View style={[styles.radio, selected && styles.radioSelected]}>
+                            {selected ? <Feather name="check" size={14} color={Colors.white} /> : null}
+                          </View>
                         </View>
-                      </View>
-                    </Pressable>
-                  </GlassSurface>
-                </Animated.View>
-              );
-            })}
+                      </Pressable>
+                    </GlassSurface>
+                  </Animated.View>
+                );
+              })
+            )}
           </View>
 
           {selectedEvent ? (
@@ -126,6 +160,11 @@ export default function RegisterEventScreen() {
                 icon={registered ? 'grid' : 'user-plus'}
                 onPress={() => (registered ? router.push('/my-qr') : handleRegister())}
               />
+              {duplicate ? (
+                <Text style={styles.duplicateNote}>
+                  You are already registered for this event.
+                </Text>
+              ) : null}
             </Animated.View>
           ) : null}
 

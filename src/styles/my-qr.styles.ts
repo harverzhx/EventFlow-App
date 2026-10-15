@@ -135,6 +135,25 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.primary,
   },
+  emptyCard: {
+    alignItems: 'center',
+    gap: Spacing.three,
+    padding: Spacing.six,
+  },
+  emptyTitle: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.lg,
+    lineHeight: 26,
+    fontWeight: '700',
+    color: Colors.navy,
+  },
+  emptyHint: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.sm,
+    lineHeight: 20,
+    color: Colors.textMuted,
+    textAlign: 'center',
+  },
   spacer: {
     height: 120,
   },

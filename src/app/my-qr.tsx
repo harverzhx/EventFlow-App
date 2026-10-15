@@ -8,7 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { QrCode } from '@/components/qr-code';
-import { CURRENT_USER, MOCK_EVENTS, MOCK_REGISTRATIONS } from '@/data/mock';
+import { useDemoSession } from '@/context/demo-session';
+import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/my-qr.styles';
@@ -16,17 +18,16 @@ import styles from '@/styles/my-qr.styles';
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
-/** The current participant's first registration (mock). */
-const MY_REGISTRATION = MOCK_REGISTRATIONS.find(
-  (registration) => registration.userKey === CURRENT_USER.key
-) ?? MOCK_REGISTRATIONS[0];
-
-const MY_EVENT = MOCK_EVENTS.find((event) => event.key === MY_REGISTRATION.eventKey)!;
-
 export default function MyQrScreen() {
   useRouteGuard('/my-qr');
+  const { user } = useDemoSession();
+  const { registrationsForUser } = useRegistrations();
+  const { events } = useEvents();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  const myRegistration = user ? registrationsForUser(user.key)[0] : undefined;
+  const myEvent = myRegistration ? events.find((e) => e.key === myRegistration.eventKey) : undefined;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -56,29 +57,49 @@ export default function MyQrScreen() {
             </View>
           </Animated.View>
 
-          <Animated.View entering={FadeInDown.delay(120).duration(480)} style={styles.qrWrap}>
-            <GlassSurface
-              style={styles.qrCard}
-              borderRadius={Radius.lg}
-              blurTarget={blurTarget}
-              intensity={40}
-              overlayColor="rgba(255, 255, 255, 0.85)"
-              tintColor="rgba(255, 255, 255, 0.85)">
-              <QrCode value={MY_REGISTRATION.qrCode} size={220} />
+          {myRegistration ? (
+            <Animated.View entering={FadeInDown.delay(120).duration(480)} style={styles.qrWrap}>
+              <GlassSurface
+                style={styles.qrCard}
+                borderRadius={Radius.lg}
+                blurTarget={blurTarget}
+                intensity={40}
+                overlayColor="rgba(255, 255, 255, 0.85)"
+                tintColor="rgba(255, 255, 255, 0.85)">
+                <QrCode value={myRegistration.qrCode} size={220} />
 
-              <View style={styles.qrInfo}>
-                <Text style={styles.qrCode}>{MY_REGISTRATION.qrCode}</Text>
-                <Text style={styles.qrName}>{MY_REGISTRATION.name}</Text>
-              </View>
+                <View style={styles.qrInfo}>
+                  <Text style={styles.qrCode}>{myRegistration.qrCode}</Text>
+                  <Text style={styles.qrName}>{myRegistration.name}</Text>
+                </View>
 
-              <View style={styles.eventPill}>
-                <Feather name="calendar" size={14} color={Colors.primary} />
-                <Text style={styles.eventPillText} numberOfLines={1}>
-                  {MY_EVENT.title}
+                {myEvent ? (
+                  <View style={styles.eventPill}>
+                    <Feather name="calendar" size={14} color={Colors.primary} />
+                    <Text style={styles.eventPillText} numberOfLines={1}>
+                      {myEvent.title}
+                    </Text>
+                  </View>
+                ) : null}
+              </GlassSurface>
+            </Animated.View>
+          ) : (
+            <Animated.View entering={FadeInDown.delay(120).duration(480)} style={styles.qrWrap}>
+              <GlassSurface
+                style={styles.emptyCard}
+                borderRadius={Radius.lg}
+                blurTarget={blurTarget}
+                intensity={40}
+                overlayColor="rgba(255, 255, 255, 0.85)"
+                tintColor="rgba(255, 255, 255, 0.85)">
+                <Feather name="grid" size={40} color={Colors.textMuted} />
+                <Text style={styles.emptyTitle}>No QR code yet</Text>
+                <Text style={styles.emptyHint}>
+                  Register for an event first — your QR code will appear here.
                 </Text>
-              </View>
-            </GlassSurface>
-          </Animated.View>
+              </GlassSurface>
+            </Animated.View>
+          )}
 
           <Animated.View entering={FadeInDown.delay(240).duration(480)} style={styles.hintRow}>
             <Feather name="info" size={16} color={Colors.textMuted} />

@@ -9,12 +9,12 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import {
-  CURRENT_USER,
   MOCK_EVENTS,
-  MOCK_REGISTRATIONS,
   ROLE_LABEL,
   type MockRegistration
 } from '@/data/mock';
+import { useRegistrations } from '@/context/registrations';
+import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/scan-qr.styles';
@@ -22,10 +22,12 @@ import styles from '@/styles/scan-qr.styles';
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
-type ScanState = 'idle' | 'scanning' | 'verified';
+type ScanState = 'idle' | 'scanning' | 'verified' | 'invalid' | 'checked-in';
 
 export default function ScanQrScreen() {
   useRouteGuard('/scan-qr');
+  const { registrations, markAttended } = useRegistrations();
+  const { user } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
@@ -35,19 +37,25 @@ export default function ScanQrScreen() {
   function handleScan() {
     setState('scanning');
 
-    // Simulated: pick the first not-yet-checked-in registration (mock only)
+    // Simulated: pick the next not-yet-checked-in registration (mock only)
     setTimeout(() => {
-      const next = MOCK_REGISTRATIONS.find((registration) => !registration.attended) ?? MOCK_REGISTRATIONS[0];
-      setScanned(next);
-      setState('verified');
+      const next = registrations.find((registration) => !registration.attended) ?? null;
+      if (next) {
+        setScanned(next);
+        setState('verified');
+      } else {
+        setScanned(null);
+        setState('invalid');
+      }
     }, 800);
   }
 
   function handleMarkPresent() {
     if (!scanned) return;
+    markAttended(scanned.qrCode);
     Alert.alert(
       'Attendance recorded',
-      `${scanned.name} has been marked present. (Mock — no data was saved.)`
+      `${scanned.name} has been marked present. (Prototype — in-memory only.)`
     );
     setScanned(null);
     setState('idle');
@@ -77,7 +85,7 @@ export default function ScanQrScreen() {
             <View style={styles.headerText}>
               <Text style={styles.eyebrow}>EVENTFLOW</Text>
               <Text style={styles.title}>Scan QR Check-in</Text>
-              <Text style={styles.subtitle}>{ROLE_LABEL[CURRENT_USER.role]}</Text>
+              <Text style={styles.subtitle}>{user ? ROLE_LABEL[user.role] : 'Demo'}</Text>
             </View>
           </Animated.View>
 
@@ -104,6 +112,34 @@ export default function ScanQrScreen() {
               />
             ) : null}
           </Animated.View>
+
+          {/* Invalid result — everyone already checked in */}
+          {state === 'invalid' ? (
+            <Animated.View entering={FadeInDown.delay(240).duration(440)}>
+              <GlassSurface
+                style={styles.resultCard}
+                borderRadius={Radius.lg}
+                blurTarget={blurTarget}
+                intensity={40}
+                overlayColor="rgba(255, 255, 255, 0.75)"
+                tintColor="rgba(255, 255, 255, 0.75">
+                <View style={styles.verifiedRow}>
+                  <View style={[styles.verifiedIcon, styles.verifiedIconOff]}>
+                    <Feather name="alert-circle" size={22} color={Colors.textMuted} />
+                  </View>
+                  <View style={styles.verifiedText}>
+                    <Text style={styles.verifiedLabel}>All checked in</Text>
+                    <Text style={styles.verifiedName}>No pending registrations</Text>
+                  </View>
+                </View>
+                <View style={styles.divider} />
+                <Text style={styles.invalidNote}>
+                  Every sample registration has already been marked present. Try again after a
+                  new participant registers.
+                </Text>
+              </GlassSurface>
+            </Animated.View>
+          ) : null}
 
           {/* Verified result */}
           {state === 'verified' && scanned ? (

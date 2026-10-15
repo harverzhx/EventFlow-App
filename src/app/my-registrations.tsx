@@ -7,7 +7,9 @@ import { useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
-import { CURRENT_USER, MOCK_EVENTS, MOCK_REGISTRATIONS } from '@/data/mock';
+import { useDemoSession } from '@/context/demo-session';
+import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/my-registrations.styles';
@@ -17,12 +19,13 @@ import Animated,
 
 export default function MyRegistrationsScreen() {
   useRouteGuard('/my-registrations');
+  const { user } = useDemoSession();
+  const { events } = useEvents();
+  const { registrationsForUser } = useRegistrations();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
-  const myRegistrations = MOCK_REGISTRATIONS.filter(
-    (registration) => registration.userKey === CURRENT_USER.key
-  );
+  const myRegistrations = user ? registrationsForUser(user.key) : [];
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -71,7 +74,11 @@ export default function MyRegistrationsScreen() {
               </Animated.View>
             ) : (
               myRegistrations.map((registration, index) => {
-                const event = MOCK_EVENTS.find((item) => item.key === registration.eventKey)!;
+                const event = events.find((item) => item.key === registration.eventKey);
+                if (!event) {
+                  return null;
+                }
+
                 return (
                   <Animated.View
                     key={registration.key}
