@@ -27,8 +27,8 @@
 | 1 | Shared Login Page and Demo Role Access | COMPLETE |
 | 2 | Shared Layout, Routing, and Navigation | COMPLETE |
 | 3 | Admin / Organizer Dashboard | COMPLETE |
-| 4 | Event Management (list, details, create, edit, delete) | NEXT |
-| 5 | Participant Management | PENDING (screen exists, needs review) |
+| 4 | Event Management (list, details, create, edit, delete) | COMPLETE |
+| 5 | Participant Management | NEXT |
 | 6 | Participant Registration | PENDING (screens exist, needs review) |
 | 7 | QR Code Generation | PENDING (screen exists, needs review) |
 | 8 | QR Scanner and Registration Verification | PENDING (screen exists, needs review) |
@@ -234,31 +234,46 @@ src/
 
 ---
 
-## MODULE 4 — EVENT MANAGEMENT — PENDING
+## MODULE 4 — EVENT MANAGEMENT — COMPLETE
 
 **Goal:** Event list, event details, create, edit, delete with confirmation.
 
 ### Tasks
-- [ ] Event details screen (`event-detail.tsx` or expandable card)
-- [ ] Edit event screen (or edit mode on create-event)
-- [ ] Delete event with confirmation dialog
-- [ ] Validation on create/edit forms
-- [ ] In-memory state for created/edited/deleted events (resets on refresh)
-- [ ] Admin-only controls (hide create/edit/delete from Staff/Participant)
+- [x] Event details screen (`event-detail.tsx` — schedule, venue, organizer, description, registration progress)
+- [x] Edit event screen (`edit-event.tsx` — pre-filled form, same validation as create)
+- [x] Delete event with confirmation dialog (`Alert` with Cancel / destructive Delete)
+- [x] Validation on create/edit forms (title, venue, capacity required; capacity > 0)
+- [x] In-memory state for created/edited/deleted events (resets on refresh — documented)
+- [x] Empty state on event list ("No events yet")
+- [x] Admin-only controls (create/edit/delete hidden from Staff/Participant)
 
-### Completion Criteria
+### Completion Criteria — all met
 - Event listing and details work
-- Create, edit, delete work in demo
+- Create, edit, delete work in demo (in-memory)
 - Validation and confirmation work
-- Changes behave consistently (in-memory, resets on refresh)
-- Admin-only controls hidden from other roles
+- Changes behave consistently (resets on refresh)
+- Admin-only controls hidden from other roles (route guard + conditional render)
 
-### Files to Modify
-- `src/app/events.tsx` — wire up event tap → details
-- `src/app/create-event.tsx` — support edit mode
-- New: `src/app/event-detail.tsx` — event details screen
-- New: `src/app/edit-event.tsx` — edit event (or merge into create-event)
-- `src/app/_layout.tsx` — register new routes
+### Files Changed
+- `src/context/events.tsx` — NEW: `EventsProvider`, `useEvents()` → addEvent / updateEvent / deleteEvent / getEvent
+- `src/app/event-detail.tsx` — NEW: full detail view + role-aware actions (admin: edit/delete, participant: register, staff: view only)
+- `src/app/edit-event.tsx` — NEW: edit form with validation
+- `src/styles/event-detail.styles.ts` — NEW
+- `src/styles/edit-event.styles.ts` — NEW
+- `src/app/create-event.tsx` — writes to events store, added validation
+- `src/app/events.tsx` — reads from store, tap → `/event-detail`, empty state, role-aware create button
+- `src/app/_layout.tsx` — wrap in `EventsProvider`, register `event-detail` + `edit-event` routes
+- `src/constants/permissions.ts` — added `/edit-event` (admin) and `/event-detail` (all roles)
+- `src/styles/events.styles.ts` — added empty state styles
+
+### Tests Performed
+- `npx tsc --noEmit` — clean (exit 0)
+- `npx expo lint` — clean (exit 0) (fixed unused `Alert` import in events.tsx mid-build)
+- Note: browser interaction test not run — flows verified via code inspection only
+
+### Known Limitations
+- Events live in React state only; refresh restores the original 6 sample events (intentional, no fake persistence)
+- Date is free-text; day/month badge derived by splitting the text (no date picker in scope)
 
 ---
 

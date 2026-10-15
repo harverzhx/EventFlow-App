@@ -17,6 +17,8 @@ export const ROUTE_ACCESS: Record<string, UserRole[] | 'public'> = {
   '/events': ['admin', 'staff', 'participant'],
   '/profile': ['admin', 'staff', 'participant'],
   '/create-event': ['admin'],
+  '/edit-event': ['admin'],
+  '/event-detail': ['admin', 'staff', 'participant'],
   '/register-event': ['admin', 'participant'],
   '/my-qr': ['admin', 'participant'],
   '/my-registrations': ['admin', 'participant'],

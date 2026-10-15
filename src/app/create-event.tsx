@@ -9,6 +9,7 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { FormField } from '@/components/form-field';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
+import { useEvents } from '@/context/events';
 import { CURRENT_USER } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
@@ -19,6 +20,7 @@ import Animated,
 
 export default function CreateEventScreen() {
   useRouteGuard('/create-event');
+  const { addEvent } = useEvents();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
@@ -28,11 +30,48 @@ export default function CreateEventScreen() {
   const [venue, setVenue] = useState('');
   const [description, setDescription] = useState('');
   const [capacity, setCapacity] = useState('');
+  const [errors, setErrors] = useState<{ title?: string; venue?: string; capacity?: string }>({});
+
+  function validate(): boolean {
+    const next: typeof errors = {};
+
+    if (!title.trim()) {
+      next.title = 'Event title is required.';
+    }
+    if (!venue.trim()) {
+      next.venue = 'Venue is required.';
+    }
+    const parsedCapacity = Number(capacity);
+    if (!capacity.trim() || Number.isNaN(parsedCapacity) || parsedCapacity <= 0) {
+      next.capacity = 'Enter a capacity greater than 0.';
+    }
+
+    setErrors(next);
+    return !next.title && !next.venue && !next.capacity;
+  }
 
   function handleSave() {
+    if (!validate()) {
+      return;
+    }
+
+    // Date text is split into day/month for the demo badge.
+    const dateParts = date.trim().split(/\s+/);
+
+    addEvent({
+      title: title.trim(),
+      day: dateParts[0] ?? 'TBA',
+      month: dateParts[1]?.toUpperCase() ?? '',
+      time: time.trim() || 'TBA',
+      venue: venue.trim(),
+      description: description.trim() || 'No description provided.',
+      capacity: Number(capacity) || 0,
+      organizer: CURRENT_USER.name,
+    });
+
     Alert.alert(
       'Event created',
-      `"${title || 'Untitled event'}" has been added to the event list. (Mock — no data was saved.)`
+      `"${title.trim()}" has been added to the event list. (Prototype — in-memory only, resets on refresh.)`
     );
     router.back();
   }
@@ -80,7 +119,11 @@ export default function CreateEventScreen() {
                   icon="type"
                   placeholder="Tech Seminar 2026"
                   value={title}
-                  onChangeText={setTitle}
+                  onChangeText={(value) => {
+                    setTitle(value);
+                    setErrors((prev) => ({ ...prev, title: undefined }));
+                  }}
+                  error={errors.title}
                 />
                 <FormField
                   label="Date"
@@ -101,15 +144,23 @@ export default function CreateEventScreen() {
                   icon="map-pin"
                   placeholder="Main Auditorium"
                   value={venue}
-                  onChangeText={setVenue}
+                  onChangeText={(value) => {
+                    setVenue(value);
+                    setErrors((prev) => ({ ...prev, venue: undefined }));
+                  }}
+                  error={errors.venue}
                 />
                 <FormField
                   label="Capacity"
                   icon="users"
                   placeholder="200"
                   value={capacity}
-                  onChangeText={setCapacity}
+                  onChangeText={(value) => {
+                    setCapacity(value);
+                    setErrors((prev) => ({ ...prev, capacity: undefined }));
+                  }}
                   keyboardType="number-pad"
+                  error={errors.capacity}
                 />
                 <FormField
                   label="Description"

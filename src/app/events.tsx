@@ -1,4 +1,4 @@
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Colors, Radius } from '@/constants/theme';
 import { Feather } from '@expo/vector-icons';
 import { BlurTargetView } from 'expo-blur';
@@ -9,22 +9,21 @@ import { AnimatedPressable } from '@/components/animated-pressable';
 import { AuroraBackground } from '@/components/aurora-background';
 import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
-import { CURRENT_USER, MOCK_EVENTS } from '@/data/mock';
+import { useEvents } from '@/context/events';
+import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/events.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
-const EVENTS = MOCK_EVENTS;
-
 export default function EventsScreen() {
+  useRouteGuard('/events');
+  const { events } = useEvents();
+  const { role } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
-
-  function handleEventPress(eventKey: string, title: string) {
-    Alert.alert(title, 'Event details are part of the UI only for this activity.');
-  }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -53,7 +52,7 @@ export default function EventsScreen() {
               <Text style={styles.title}>Events</Text>
               <Text style={styles.subtitle}>Browse your scheduled events.</Text>
             </View>
-            {CURRENT_USER.role === 'admin' ? (
+            {role === 'admin' ? (
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Create event"
@@ -73,40 +72,54 @@ export default function EventsScreen() {
           </Animated.View>
 
           <View style={styles.eventList}>
-            {EVENTS.map((event, index) => (
-              <AnimatedPressable
-                key={event.key}
-                entering={FadeInDown.delay(180 + index * 70).duration(460)}
-                onPress={() => handleEventPress(event.key, event.title)}>
-                <GlassSurface
-                  style={styles.eventRow}
-                  borderRadius={Radius.lg}
-                  blurTarget={blurTarget}
-                  intensity={40}
-                  overlayColor="rgba(255, 255, 255, 0.7)"
-                  tintColor="rgba(255, 255, 255, 0.7)"
-                  isInteractive>
-                  <View style={styles.dateBadge}>
-                    <Text style={styles.dateDay}>{event.day}</Text>
-                    <Text style={styles.dateMonth}>{event.month}</Text>
-                  </View>
+            {events.length === 0 ? (
+              <View style={styles.empty}>
+                <Feather name="calendar" size={40} color={Colors.textMuted} />
+                <Text style={styles.emptyTitle}>No events yet</Text>
+                <Text style={styles.emptyText}>
+                  {role === 'admin'
+                    ? 'Create your first event using the + button above.'
+                    : 'There are no scheduled events right now. Check back later.'}
+                </Text>
+              </View>
+            ) : (
+              events.map((event, index) => (
+                <AnimatedPressable
+                  key={event.key}
+                  entering={FadeInDown.delay(180 + index * 70).duration(460)}
+                  onPress={() =>
+                    router.push({ pathname: '/event-detail', params: { eventKey: event.key } })
+                  }>
+                  <GlassSurface
+                    style={styles.eventRow}
+                    borderRadius={Radius.lg}
+                    blurTarget={blurTarget}
+                    intensity={40}
+                    overlayColor="rgba(255, 255, 255, 0.7)"
+                    tintColor="rgba(255, 255, 255, 0.7)"
+                    isInteractive>
+                    <View style={styles.dateBadge}>
+                      <Text style={styles.dateDay}>{event.day}</Text>
+                      <Text style={styles.dateMonth}>{event.month}</Text>
+                    </View>
 
-                  <View style={styles.eventInfo}>
-                    <Text style={styles.eventTitle} numberOfLines={1}>
-                      {event.title}
-                    </Text>
-                    <Text style={styles.eventMeta} numberOfLines={1}>
-                      {event.time} · {event.venue}
-                    </Text>
-                    <Text style={styles.eventMeta} numberOfLines={1}>
-                      {event.registered}/{event.capacity} registered
-                    </Text>
-                  </View>
+                    <View style={styles.eventInfo}>
+                      <Text style={styles.eventTitle} numberOfLines={1}>
+                        {event.title}
+                      </Text>
+                      <Text style={styles.eventMeta} numberOfLines={1}>
+                        {event.time} · {event.venue}
+                      </Text>
+                      <Text style={styles.eventMeta} numberOfLines={1}>
+                        {event.registered}/{event.capacity} registered
+                      </Text>
+                    </View>
 
-                  <Feather name="chevron-right" size={18} color={Colors.textMuted} />
-                </GlassSurface>
-              </AnimatedPressable>
-            ))}
+                    <Feather name="chevron-right" size={18} color={Colors.textMuted} />
+                  </GlassSurface>
+                </AnimatedPressable>
+              ))
+            )}
           </View>
 
           <View style={styles.spacer} />
