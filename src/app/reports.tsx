@@ -9,7 +9,9 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { GlassSurface } from '@/components/glass-surface';
 import { PrimaryButton } from '@/components/primary-button';
 import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { useResponsive } from '@/hooks/use-responsive';
+import { computeEventStats } from '@/utils/event-stats';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/reports.styles';
 
@@ -19,12 +21,21 @@ import Animated,
 export default function ReportsScreen() {
   useRouteGuard('/reports');
   const { events } = useEvents();
+  const { registrations } = useRegistrations();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
+  const eventStats = computeEventStats(events, registrations);
+
   const totalEvents = events.length;
-  const totalRegistered = events.reduce((sum, event) => sum + event.registered, 0);
-  const totalAttended = events.reduce((sum, event) => sum + event.attended, 0);
+  const totalRegistered = events.reduce(
+    (sum, event) => sum + (eventStats.get(event.key)?.registered ?? 0),
+    0
+  );
+  const totalAttended = events.reduce(
+    (sum, event) => sum + (eventStats.get(event.key)?.attended ?? 0),
+    0
+  );
   const attendanceRate = totalRegistered > 0 ? Math.round((totalAttended / totalRegistered) * 100) : 0;
 
   return (
@@ -119,7 +130,11 @@ export default function ReportsScreen() {
 
           <ScrollView style={styles.list}>
             {events.map((event, index) => {
-              const rate = event.registered > 0 ? Math.round((event.attended / event.registered) * 100) : 0;
+              const eventStat = eventStats.get(event.key) ?? { registered: 0, attended: 0 };
+              const rate =
+                eventStat.registered > 0
+                  ? Math.round((eventStat.attended / eventStat.registered) * 100)
+                  : 0;
               return (
                 <Animated.View
                   key={event.key}
@@ -136,7 +151,7 @@ export default function ReportsScreen() {
                         {event.title}
                       </Text>
                       <Text style={styles.rowMeta}>
-                        {event.registered} registered · {event.attended} attended
+                        {eventStat.registered} registered · {eventStat.attended} attended
                       </Text>
                     </View>
                     <Text style={styles.rowRate}>{rate}%</Text>

@@ -61,6 +61,17 @@ export default function ScanQrScreen() {
     setState('idle');
   }
 
+  function handleDuplicateScan() {
+    if (!scanned) return;
+    const already = markAttended(scanned.qrCode);
+    if (!already) {
+      Alert.alert(
+        'Duplicate check-in blocked',
+        `${scanned.name} is already checked in. (Prototype — in-memory only.)`
+      );
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <BlurTargetView ref={blurTarget} style={StyleSheet.absoluteFill}>
@@ -111,6 +122,10 @@ export default function ScanQrScreen() {
                 onPress={handleScan}
               />
             ) : null}
+
+            <Text style={styles.scannerHint}>
+              Demo simulation — no camera is used. Tap “Simulate Scan” to verify a registration.
+            </Text>
           </Animated.View>
 
           {/* Invalid result — everyone already checked in */}
@@ -180,6 +195,13 @@ export default function ScanQrScreen() {
 
                 <View style={styles.resultActions}>
                   <PrimaryButton label="Mark Present" icon="check" onPress={handleMarkPresent} />
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="Scan again to test duplicate check-in"
+                    style={styles.duplicateButton}
+                    onPress={handleDuplicateScan}>
+                    <Text style={styles.duplicateButtonText}>Scan again (test duplicate)</Text>
+                  </Pressable>
                 </View>
               </GlassSurface>
             </Animated.View>

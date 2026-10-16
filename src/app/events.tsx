@@ -11,8 +11,10 @@ import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
 import { useEvents } from '@/context/events';
 import { useDemoSession } from '@/context/demo-session';
+import { useRegistrations } from '@/context/registrations';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
+import { computeEventStats } from '@/utils/event-stats';
 import styles from '@/styles/events.styles';
 
 import Animated,
@@ -22,8 +24,11 @@ export default function EventsScreen() {
   useRouteGuard('/events');
   const { events } = useEvents();
   const { role } = useDemoSession();
+  const { registrations } = useRegistrations();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  const eventStats = computeEventStats(events, registrations);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -111,7 +116,7 @@ export default function EventsScreen() {
                         {event.time} · {event.venue}
                       </Text>
                       <Text style={styles.eventMeta} numberOfLines={1}>
-                        {event.registered}/{event.capacity} registered
+                        {eventStats.get(event.key)?.registered ?? 0}/{event.capacity} registered
                       </Text>
                     </View>
 

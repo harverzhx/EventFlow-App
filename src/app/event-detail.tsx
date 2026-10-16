@@ -13,16 +13,17 @@ import { useRegistrations } from '@/context/registrations';
 import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
+import { computeEventStats } from '@/utils/event-stats';
 import styles from '@/styles/event-detail.styles';
 
 import Animated,
   { FadeInDown } from 'react-native-reanimated';
 
 export default function EventDetailScreen() {
-  useRouteGuard('/events');
+  useRouteGuard('/event-detail');
   const { eventKey } = useLocalSearchParams<{ eventKey: string }>();
-  const { getEvent, deleteEvent } = useEvents();
-  const { register, isRegistered } = useRegistrations();
+  const { events, getEvent, deleteEvent } = useEvents();
+  const { register, isRegistered, registrations } = useRegistrations();
   const { role, user } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
@@ -44,10 +45,13 @@ export default function EventDetailScreen() {
     );
   }
 
+  const eventStats = computeEventStats(events, registrations);
+  const eventStat = eventStats.get(event.key) ?? { registered: 0, attended: 0 };
+
   const isAdmin = role === 'admin';
-  const seatsLeft = Math.max(event.capacity - event.registered, 0);
+  const seatsLeft = Math.max(event.capacity - eventStat.registered, 0);
   const registeredPct = Math.min(
-    Math.round((event.registered / Math.max(event.capacity, 1)) * 100),
+    Math.round((eventStat.registered / Math.max(event.capacity, 1)) * 100),
     100
   );
 
@@ -178,7 +182,7 @@ export default function EventDetailScreen() {
               tintColor="rgba(255, 255, 255, 0.72)">
               <View style={styles.countsRow}>
                 <View style={styles.countItem}>
-                  <Text style={styles.countValue}>{event.registered}</Text>
+                  <Text style={styles.countValue}>{eventStat.registered}</Text>
                   <Text style={styles.countLabel}>Registered</Text>
                 </View>
                 <View style={styles.countItem}>
@@ -186,7 +190,7 @@ export default function EventDetailScreen() {
                   <Text style={styles.countLabel}>Seats left</Text>
                 </View>
                 <View style={styles.countItem}>
-                  <Text style={styles.countValue}>{event.attended}</Text>
+                  <Text style={styles.countValue}>{eventStat.attended}</Text>
                   <Text style={styles.countLabel}>Attended</Text>
                 </View>
               </View>

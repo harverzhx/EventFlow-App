@@ -116,6 +116,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.primary,
   },
+  scannerHint: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.xs,
+    lineHeight: 18,
+    color: Colors.textMuted,
+    textAlign: 'center',
+    marginTop: Spacing.one,
+  },
   resultCard: {
     marginTop: Spacing.three,
     padding: Spacing.four,
@@ -183,6 +191,18 @@ const styles = StyleSheet.create({
   },
   resultActions: {
     paddingTop: Spacing.two,
+  },
+  duplicateButton: {
+    paddingTop: Spacing.one,
+    alignItems: 'center',
+  },
+  duplicateButtonText: {
+    fontFamily: Fonts.sans,
+    fontSize: FontSize.xs,
+    lineHeight: 18,
+    color: Colors.danger,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   verifiedIconOff: {
     backgroundColor: Colors.surface,

@@ -26,22 +26,22 @@ export const DEMO_SESSION_INITIAL: DemoSession = {
 export const DEMO_ACCOUNTS: Record<UserRole, MockUser> = {
   admin: {
     key: 'u1',
-    name: 'Magsayo Dave Archie',
+    name: 'Dave Archie Magsayo',
     email: 'dave.magsayo@jmsu.edu.ph',
     role: 'admin',
     isCurrent: true,
   },
   staff: {
     key: 'u2',
-    name: 'Baje John Harvy',
+    name: 'John Harvy Baje',
     email: 'harvy.baje@jmsu.edu.ph',
     role: 'staff',
     isCurrent: true,
   },
   participant: {
     key: 'u3',
-    name: 'Marian Santos',
-    email: 'marian.santos@jmsu.edu.ph',
+    name: 'Marian Muite',
+    email: 'marian.muite@jmsu.edu.ph',
     role: 'participant',
     isCurrent: true,
   },

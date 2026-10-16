@@ -12,7 +12,9 @@ import { BottomNav } from '@/components/bottom-nav';
 import { GlassSurface } from '@/components/glass-surface';
 import { useDemoSession } from '@/context/demo-session';
 import { useEvents } from '@/context/events';
+import { useRegistrations } from '@/context/registrations';
 import { ROLE_LABEL, quickActionsForRole } from '@/data/mock';
+import { computeEventStats } from '@/utils/event-stats';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/dashboard.styles';
@@ -24,6 +26,7 @@ export default function DashboardScreen() {
   useRouteGuard('/dashboard');
   const { user } = useDemoSession();
   const { events } = useEvents();
+  const { registrations } = useRegistrations();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
 
@@ -32,19 +35,27 @@ export default function DashboardScreen() {
   const QUICK_ACTIONS = quickActionsForRole(activeRole);
   const UPCOMING_EVENTS = events.slice(0, 3);
 
-  /** Summary stats derived from the sample event data (no backend). */
+  const eventStats = computeEventStats(events, registrations);
+
+  /** Summary stats derived from live registration/check-in state (no backend). */
   const stats: { key: string; label: string; value: number; icon: 'calendar' | 'users' | 'check-square' | 'grid' }[] = [
     { key: 'events', label: 'Total Events', value: events.length, icon: 'calendar' },
     {
       key: 'registered',
       label: 'Registrations',
-      value: events.reduce((sum, event) => sum + event.registered, 0),
+      value: events.reduce(
+        (sum, event) => sum + (eventStats.get(event.key)?.registered ?? 0),
+        0
+      ),
       icon: 'users',
     },
     {
       key: 'attended',
       label: 'Attended',
-      value: events.reduce((sum, event) => sum + event.attended, 0),
+      value: events.reduce(
+        (sum, event) => sum + (eventStats.get(event.key)?.attended ?? 0),
+        0
+      ),
       icon: 'check-square',
     },
     {

@@ -1,0 +1,20 @@
+For your Midterm Project, you will present and demonstrate the application you've developed.
+
+Important: All members must participate and understand the project. Any member may be asked questions individually. You will be evaluated as a group and individually.
+
+WHAT TO PREPARE
+1. React Native Application
+2. PowerPoint Presentation
+Your presentation should briefly discuss:
+Application Title & Group Members
+Background / Problem
+Objectives
+Target Users
+Main Features
+UI / Screen Overview (with brief descriptions)
+Conclusion
+3. Application Demonstration
+4. Q&A / Defense
+
+Please review the 100-point Midterm Project Rubric for the grading criteria. Make sure your application, presentation, and demonstration are properly prepared before your scheduled presentation.  
+Good luck, everyone!

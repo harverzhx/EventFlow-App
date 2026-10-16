@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   eventRowSelected: {
     borderWidth: 2,
     borderColor: Colors.primary,
+    backgroundColor: Colors.primaryTint,
   },
   eventRowInner: {
     flexDirection: 'row',

@@ -13,6 +13,7 @@ import { useRegistrations } from '@/context/registrations';
 import { useDemoSession } from '@/context/demo-session';
 import { useResponsive } from '@/hooks/use-responsive';
 import { useRouteGuard } from '@/hooks/use-route-guard';
+import { computeEventStats } from '@/utils/event-stats';
 import styles from '@/styles/register-event.styles';
 
 import Animated,
@@ -21,10 +22,12 @@ import Animated,
 export default function RegisterEventScreen() {
   useRouteGuard('/register-event');
   const { events } = useEvents();
-  const { register, isRegistered } = useRegistrations();
+  const { register, isRegistered, registrations } = useRegistrations();
   const { user } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();
+
+  const eventStats = computeEventStats(events, registrations);
 
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [registered, setRegistered] = useState(false);
@@ -136,7 +139,7 @@ export default function RegisterEventScreen() {
                               {event.time} · {event.venue}
                             </Text>
                             <Text style={styles.eventMeta} numberOfLines={1}>
-                              {event.registered}/{event.capacity} registered
+                              {eventStats.get(event.key)?.registered ?? 0}/{event.capacity} registered
                               {user && isRegistered(user.key, event.key) ? ' · You joined' : ''}
                             </Text>
                           </View>

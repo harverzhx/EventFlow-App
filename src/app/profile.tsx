@@ -13,6 +13,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { useDemoSession } from '@/context/demo-session';
 import { ROLE_LABEL } from '@/data/mock';
 import { useResponsive } from '@/hooks/use-responsive';
+import { useRouteGuard } from '@/hooks/use-route-guard';
 import styles from '@/styles/profile.styles';
 
 import Animated,
@@ -35,6 +36,7 @@ const FIELDS = [
 ] as const;
 
 export default function ProfileScreen() {
+  useRouteGuard('/profile');
   const { user, signOut } = useDemoSession();
   const blurTarget = useRef<View>(null);
   const { contentWidth, inset } = useResponsive();

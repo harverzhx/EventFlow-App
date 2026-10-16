@@ -17,7 +17,7 @@ export type MockUser = {
 
 export const CURRENT_USER: MockUser = {
   key: 'u1',
-  name: 'Magsayo Dave Archie',
+  name: 'Dave Archie Magsayo',
   email: 'dave.magsayo@jmsu.edu.ph',
   role: 'admin',
   isCurrent: true,
@@ -25,8 +25,8 @@ export const CURRENT_USER: MockUser = {
 
 export const MOCK_USERS: MockUser[] = [
   CURRENT_USER,
-  { key: 'u2', name: 'Baje John Harvy', email: 'harvy.baje@jmsu.edu.ph', role: 'staff' },
-  { key: 'u3', name: 'Marian Santos', email: 'marian.santos@jmsu.edu.ph', role: 'participant' },
+  { key: 'u2', name: 'John Harvy Baje', email: 'harvy.baje@jmsu.edu.ph', role: 'staff' },
+  { key: 'u3', name: 'Marian Muite', email: 'marian.muite@jmsu.edu.ph', role: 'participant' },
   { key: 'u4', name: 'Ana Reyes', email: 'ana.reyes@jmsu.edu.ph', role: 'participant' },
   { key: 'u5', name: 'Carlo Lim', email: 'carlo.lim@jmsu.edu.ph', role: 'participant' },
 ];
@@ -58,7 +58,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 200,
     registered: 148,
     attended: 132,
-    organizer: 'Magsayo Dave Archie',
+    organizer: 'Dave Archie Magsayo',
   },
   {
     key: 'e2',
@@ -71,7 +71,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 100,
     registered: 76,
     attended: 0,
-    organizer: 'Baje John Harvy',
+    organizer: 'John Harvy Baje',
   },
   {
     key: 'e3',
@@ -84,7 +84,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 40,
     registered: 32,
     attended: 0,
-    organizer: 'Magsayo Dave Archie',
+    organizer: 'Dave Archie Magsayo',
   },
   {
     key: 'e4',
@@ -97,7 +97,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 60,
     registered: 54,
     attended: 0,
-    organizer: 'Baje John Harvy',
+    organizer: 'John Harvy Baje',
   },
   {
     key: 'e5',
@@ -110,7 +110,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 50,
     registered: 41,
     attended: 0,
-    organizer: 'Magsayo Dave Archie',
+    organizer: 'Dave Archie Magsayo',
   },
   {
     key: 'e6',
@@ -123,7 +123,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     capacity: 120,
     registered: 98,
     attended: 0,
-    organizer: 'Marian Santos',
+    organizer: 'Marian Muite',
   },
 ];
 
@@ -138,10 +138,10 @@ export type MockRegistration = {
 };
 
 export const MOCK_REGISTRATIONS: MockRegistration[] = [
-  { key: 'r1', eventKey: 'e1', userKey: 'u3', name: 'Marian Santos', qrCode: 'EF-E1-U3', attended: true },
+  { key: 'r1', eventKey: 'e1', userKey: 'u3', name: 'Marian Muite', qrCode: 'EF-E1-U3', attended: true },
   { key: 'r2', eventKey: 'e1', userKey: 'u4', name: 'Ana Reyes', qrCode: 'EF-E1-U4', attended: true },
   { key: 'r3', eventKey: 'e1', userKey: 'u5', name: 'Carlo Lim', qrCode: 'EF-E1-U5', attended: true },
-  { key: 'r4', eventKey: 'e2', userKey: 'u3', name: 'Marian Santos', qrCode: 'EF-E2-U3', attended: false },
+  { key: 'r4', eventKey: 'e2', userKey: 'u3', name: 'Marian Muite', qrCode: 'EF-E2-U3', attended: false },
   { key: 'r5', eventKey: 'e2', userKey: 'u4', name: 'Ana Reyes', qrCode: 'EF-E2-U4', attended: false },
   { key: 'r6', eventKey: 'e4', userKey: 'u5', name: 'Carlo Lim', qrCode: 'EF-E4-U5', attended: false },
 ];

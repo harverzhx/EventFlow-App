@@ -1,0 +1,117 @@
+mga kulang
+PHASE 3 — STAFF (John Harvy Baje)
+Click sa Comming event
+view all deatails for event
+profile edit ug updates
+logout
+PHASE 4 — PARTICIPANT (Marian Muite)
+mga kulang 
+view all deatails for event
+profile edit ug updates
+logout
+
+problem UI.
+sa register for an event.
+nag Click ko kog event din gi balhin nako second event na hide rag kali pero kung asa nako gi Click ang una ma click ra siya pero
+dili makita.
+sa Bottom nav: Events 
+pag click nako kay ang text sa top kay dili ma klaro ang color.
+iyang na sapawan ang color maong dili ma klaro ang text.
+
+
+COPY-PASTE TEMPLATE (ipaplami lang sa notes app)
+Demo accounts:
+
+Admin: Dave Archie Magsayo
+Staff: John Harvy Baje
+Participant: Marian Muite
+Mark: [/] = trabaho | [X] = dili trabaho
+
+PHASE 1 — LOGIN
+/ 1.1 App loads, Login screen shows
+/ 1.2 Role dropdown selected
+/ 1.3 Empty sign-in shows error
+/ 1.4 Sign-in goes to Dashboard
+/ 1.5 Sign Up form shows
+/ 1.6 Mismatched password shows error
+/ 1.7 Matching password → "Account created"
+/ 1.8 Refresh resets all data
+ PHASE 2 — ADMIN (Dave Archie Magsayo)
+/ 2.1 Admin dashboard loads
+/ 2.2 Stats match Reports screen
+/ 2.3 Create Event form opens
+/ 2.4 Empty fields blocked
+/ 2.5 Capacity 0 blocked
+/ 2.6 Event created successfully
+/ 2.7 Event Details opens
+/ 2.8 Edit Event pre-fills
+/ 2.9 Save edits updates everywhere
+/ 2.10 Delete event works
+/ 2.11 Participants list opens
+/ 2.12 Attendance records open
+/ 2.13 Reports open
+/ 2.14 User Management opens
+/ 2.15 Bottom nav: Home / Events / Profile
+ PHASE 3 — STAFF (John Harvy Baje)
+/ 3.1 Staff dashboard loads
+/ 3.2 No Create Event for staff
+/ 3.3 Scan screen shows "Simulate Scan"
+/ 3.4 Simulate Scan picks registration
+/ 3.5 Mark Present works
+X 3.6 Duplicate check-in blocked (note dili ma  Duplicate check-in kay siya dili man niya e balik og scan ang an scan niya)
+/ 3.7 Attendance opens (staff)
+/ 3.8 Participants opens (staff)
+/ 3.9 /create-event blocked for staff
+/ 3.10 Bottom nav: Home / Scan / Profile
+ PHASE 4 — PARTICIPANT (Marian Muite)
+/ 4.1 Participant dashboard loads
+/ 4.2 No admin tools for participant
+/ 4.3 Register screen opens
+/ 4.4 Register for event works
+/ 4.5 Duplicate registration blocked
+/ 4.6 My QR Code shows
+/ 4.7 Says "Mock QR — not scannable" 
+/ 4.8 My Registrations shows status
+/ 4.9 /reports blocked for participant
+/ 4.10 Bottom nav: Home / Events / Profile
+ PHASE 5 — DATA CONSISTENCY
+X 5.1 Dashboard counts match Reports 
+/ 5.2 New registration increments all counts
+/ 5.3 Check-in increments attended everywhere
+/ 5.4 Events list count matches live data
+/ 5.5 Event Detail count matches live data
+/ 5.6 Register screen count matches live data
+/ 5.7 Duplicate registration: counts unchanged
+/ 5.8 Duplicate check-in: counts unchanged
+ PHASE 6 — NAVIGATION & PERMISSIONS
+/ 6.1 No session → redirects to Login
+/ 6.2 Log Out returns to Login
+/ 6.3 Admin Profile opens
+/ 6.4 Staff Profile opens
+/ 6.5 Participant Profile opens
+/ 6.6 Bottom nav active tab highlights
+/ 6.7 Back button works
+ PHASE 7 — SIMULATED vs REAL
+/ 7.1 My QR says "not scannable"
+/ 7.2 Scan button says "Simulate Scan"
+/ 7.3 Scan hint says "no camera"
+/ 7.4 Report export is mock alert
+/ 7.5 Sign Up is cosmetic only
+/ 7.6 Profile save doesn't persist
+ PHASE 8 — KNOWN LIMITATIONS (X = correct)
+/ 8.1 No real login (by design)
+/ 8.2 No data persistence (by design)
+/ 8.3 No camera QR (by design)
+/ 8.4 No file export (by design)
+/ 8.5 No date picker (by design)
+/ 8.6 No search/categories (by design)
+/ 8.7 No notifications (by design)
+/ 8.8 No per-event staff roles (by design)
+/ 8.9 No backend (by design)
+ PHASE 9 — FULL DEMO SCRIPT
+/ 9.1 Admin creates event
+/ 9.2 Participant registers
+/ 9.3 My QR Code shows
+/ 9.4 Staff simulates scan
+/ 9.5 Mark Present works
+/ 9.6 Admin Reports show u

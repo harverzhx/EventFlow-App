@@ -18,6 +18,7 @@ function navItemsForRole(role: UserRole | null): NavItem[] {
   if (role === 'staff') {
     return [
       { key: 'home', label: 'Home', icon: 'home' },
+      { key: 'events', label: 'Events', icon: 'calendar' },
       { key: 'scan', label: 'Scan', icon: 'maximize' },
       { key: 'profile', label: 'Profile', icon: 'user' },
     ];
